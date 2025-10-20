@@ -56,6 +56,9 @@ def get_phrase_boundaries_complex(songs):
         seconds = t % 60
         print(f"{minutes:02d}:{seconds:04.1f}")
 
+
+#  Takes the novelty function and converts it into phrase boundary times
+#  Only considers novelty value above certain maxima that meets the criteria
 def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=5, min_peak_distance_sec=1.0,
                          threshold_factor=1.0):
     n_frames = len(novelty)
@@ -73,7 +76,9 @@ def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window
 
     return librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
 
-
+# Computes the similarity between two frames
+# Computes using a self similarity matrix and a checkerboard kernel to detect if frames are similar or not
+# The greater the difference between the features of two frames, the more likely to be a phrase boundary
 def compute_novelty(SSM, sr, L=None, hop_length=512):
     n_frames = SSM.shape[0]
     novelty = np.zeros(n_frames)
@@ -118,7 +123,8 @@ def compute_chroma(y, sr):
     chroma = librosa.util.normalize(chroma, axis=0)
     return chroma
 
-
+# This gets the audio waveform (y) and the sample rate (sr)
+# y is the audio data sr is the scale
 def preprocessing(songs):
     song = songs[0]
     y, sr = librosa.load(song['path'])
@@ -127,7 +133,9 @@ def preprocessing(songs):
 
     return y, sr
 
-
+# Gets rid of any unwanted noise
+# Used to "clean" the audio of background noises
+# May not need but data will be different if turned on/off
 def highpass_filter(y, sr, cutoff=100.0):
     b, a = butter(N=2,  Wn=cutoff / (sr / 2.0), btype='high', analog=False)
     y = filtfilt(b, a, y)
