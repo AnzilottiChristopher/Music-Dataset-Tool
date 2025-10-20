@@ -1,5 +1,7 @@
 import os
+from locale import normalize
 from pathlib import Path
+from scipy.signal import butter, filtfilt
 
 import librosa
 import numpy as np
@@ -29,8 +31,28 @@ class SongLoader:
     def get_songs(self):
         return self.songs
 
+def get_phrase_boundaries_complex(songs):
+    y, sr = preprocessing(songs)
+    pass
 
-def get_phrase_boundaries(songs):
+
+def preprocessing(songs):
+    song = songs[0]
+    y, sr = librosa.load(song['path'])
+    y = librosa.util.normalize(y)
+    y = highpass_filter(y, sr)
+
+    return y, sr
+
+
+def highpass_filter(y, sr, cutoff=100.0):
+    b, a = butter(N=2,  Wn=cutoff / (sr / 2.0), btype='high', analog=False)
+    y = filtfilt(b, a, y)
+
+
+
+
+def simple_get_phrase_boundaries(songs):
     #!Implementation of single song
 
     song = songs[0]
@@ -49,7 +71,7 @@ def get_phrase_boundaries(songs):
     chroma = librosa.feature.chroma_stft(y = y, sr = sr)
     chroma_diff = np.sum(np.abs(np.diff(chroma, axis=1)), axis=0)
 
-    rms_threshold = 0.02
+    rms_threshold = 0.05
     candidate_frames = np.where((rms[:-1] < rms_threshold) & (chroma_diff > chroma_diff.mean()))[0]
 
     #Conversion from frames to sec
@@ -65,11 +87,11 @@ if __name__ == "__main__":
     #Need to adjust to a new method
     #But will load a song and find the phrase boundaries in the first 30 seconds (doesn't do well)
     loader = SongLoader()
-    loader.load_songs("Music/")
+    loader.load_songs("Music/Clarity.wav")
 
     songs = loader.get_songs()
     if songs:
-        get_phrase_boundaries(songs)
+        simple_get_phrase_boundaries(songs)
     else:
         print("no songs")
 
