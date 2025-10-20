@@ -47,11 +47,29 @@ def get_phrase_boundaries_complex(songs):
 
     # Part comes from Chatgpt because
     # I couldn't fully understand how to
-    # recreate Foote's design
+    # recreate Foote's design https://ccrma.stanford.edu/workshops/mir2009/references/Foote_00.pdf
     SSM[i, j] = cosine_similarity(features.T)
+    novelty = compute_novelty(SSM, sr)
+    # phrase_boundaries = post_process_novelty()
+
+def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=5, min_peak_distance_sec=1.0,
+                         threshold_factor=1.0):
+    n_frames = len(novelty)
 
 
 
+def compute_novelty(SSM, sr, L=None, hop_length=512):
+    n_frames = SSM.shape[0]
+    novelty = np.zeros(n_frames)
+    if L is None:
+        L = int(0.5 * sr / hop_length)
+
+    for t in range(L, n_frames - L):
+        left_block = SSM[t-L:t, t-l:t]
+        right_block = SSM[t:t+L, t:t+L]
+
+        novelty[t] = np.sum(np.abs(left_block - right_block))
+    return novelty
 
 
 # Detects the beat/tempo structure
