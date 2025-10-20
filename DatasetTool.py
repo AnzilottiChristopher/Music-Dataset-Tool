@@ -1,7 +1,7 @@
 import os
 from locale import normalize
 from pathlib import Path
-from scipy.signal import butter, filtfilt
+from scipy.signal import butter, filtfilt, find_peaks
 from sklearn.metrics.pairwise import cosine_similarity
 
 import librosa
@@ -43,19 +43,35 @@ def get_phrase_boundaries_complex(songs):
     chroma = compute_chroma(y, sr)
     mfcc = compute_mfcc(y, sr)
     tempogram, onset_env = compute_tempogram(y, sr)
-    features = np.concatenate([chroma, mfcc, tempogram, onset_env], axis=0)
+    features = np.concatenate([chroma, mfcc, tempogram, onset_env[np.newaxis, :]], axis=0)
 
     # Part comes from Chatgpt because
     # I couldn't fully understand how to
     # recreate Foote's design https://ccrma.stanford.edu/workshops/mir2009/references/Foote_00.pdf
-    SSM[i, j] = cosine_similarity(features.T)
+    SSM = cosine_similarity(features.T)
     novelty = compute_novelty(SSM, sr)
-    # phrase_boundaries = post_process_novelty()
+    phrase_boundaries = post_process_novelty(novelty, sr)
+    for t in phrase_boundaries:
+        minutes = int(t // 60)
+        seconds = t % 60
+        print(f"{minutes:02d}:{seconds:04.1f}")
 
 def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=5, min_peak_distance_sec=1.0,
                          threshold_factor=1.0):
     n_frames = len(novelty)
+    if L is None:
+        L = int(0.5 * sr / hop_length)
 
+    novelty_smooth = np.convolve(novelty, np.ones(smoothing_window)/smoothing_window, mode='same')
+
+    min_height = np.mean(novelty_smooth) * threshold_factor
+    min_distance_frames = int(min_peak_distance_sec * sr / hop_length)
+    peaks, _ = find_peaks(novelty_smooth, height=min_height, distance=min_distance_frames)
+
+    if len(peaks) == 0:
+        peaks = np.arange(L, n_frames, 2*L)
+
+    return librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
 
 
 def compute_novelty(SSM, sr, L=None, hop_length=512):
@@ -65,7 +81,7 @@ def compute_novelty(SSM, sr, L=None, hop_length=512):
         L = int(0.5 * sr / hop_length)
 
     for t in range(L, n_frames - L):
-        left_block = SSM[t-L:t, t-l:t]
+        left_block = SSM[t-L:t, t-L:t]
         right_block = SSM[t:t+L, t:t+L]
 
         novelty[t] = np.sum(np.abs(left_block - right_block))
@@ -97,9 +113,9 @@ def compute_mfcc(y, sr):
 # Used to be categorized into one of twelve distinct pitch classes
 def compute_chroma(y, sr):
     S = np.abs(librosa.stft(y))
-    chroma = librosa.feature.chroma_stft(S, sr=sr)
+    chroma = librosa.feature.chroma_stft(S=S, sr=sr)
     chroma = librosa.decompose.nn_filter(chroma)
-    chroma = librosa.util.normalize(chroma, azis=0)
+    chroma = librosa.util.normalize(chroma, axis=0)
     return chroma
 
 
@@ -158,7 +174,8 @@ if __name__ == "__main__":
 
     songs = loader.get_songs()
     if songs:
-        simple_get_phrase_boundaries(songs)
+        # simple_get_phrase_boundaries(songs)
+        get_phrase_boundaries_complex(songs)
     else:
         print("no songs")
 
