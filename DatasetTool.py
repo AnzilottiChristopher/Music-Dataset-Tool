@@ -37,13 +37,17 @@ class SongLoader:
 
 
 def get_phrase_boundaries_complex(songs):
-    y, sr = preprocessing(songs)
+    y_harm, y_perc, sr = preprocessing(songs)
 
     #Features
-    chroma = compute_chroma(y, sr)
-    mfcc = compute_mfcc(y, sr)
-    tempogram, onset_env = compute_tempogram(y, sr)
-    features = np.concatenate([chroma, mfcc, tempogram, onset_env[np.newaxis, :]], axis=0)
+    chroma = compute_chroma(y_harm, sr)
+    mfcc = compute_mfcc(y_harm, sr)
+    tempogram, onset_env = compute_tempogram(y_perc, sr)
+    flux = compute_spectral_flux(y_perc, sr)
+    flux = np.pad(flux, (0, chroma.shape[1] - flux.shape[0]), mode='constant')
+
+    features = np.concatenate([chroma, mfcc, tempogram, onset_env[np.newaxis, :], flux[np.newaxis, :]], axis=0)
+    features = librosa.util.normalize(features)
 
     # Part comes from Chatgpt because
     # I couldn't fully understand how to
@@ -60,7 +64,7 @@ def get_phrase_boundaries_complex(songs):
 #  Takes the novelty function and converts it into phrase boundary times
 #  Only considers novelty value above certain maxima that meets the criteria
 def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=5, min_peak_distance_sec=1.0,
-                         threshold_factor=3.0):
+                         threshold_factor=2.5):
     n_frames = len(novelty)
     if L is None:
         L = int(0.5 * sr / hop_length)
@@ -92,6 +96,16 @@ def compute_novelty(SSM, sr, L=None, hop_length=512):
         novelty[t] = np.sum(np.abs(left_block - right_block))
     return novelty
 
+#This help detects beatdrops in the song
+def compute_spectral_flux(y, sr, hop_length=512, n_fft=2048):
+    spectogram = np.abs(librosa.stft(y, n_fft=n_fft, hop_length=hop_length))
+    spec_norm = librosa.util.normalize(spectogram, axis=0)
+
+    flux = np.sqrt(np.sum(np.diff(spec_norm, axis=1)**2, axis=0))
+    flux = (flux - np.mean(flux)) / np.std(flux)
+    return flux
+
+
 
 # Detects the beat/tempo structure
 # The background beat that is played
@@ -110,7 +124,7 @@ def compute_mfcc(y, sr):
     mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
     timbre = librosa.feature.delta(mfcc)
     mfcc_features = np.concatenate((mfcc, timbre))
-    librosa.util.normalize(mfcc_features, axis=1)
+    mfcc_features = librosa.util.normalize(mfcc_features, axis=1)
     return mfcc_features
 
 
@@ -130,8 +144,9 @@ def preprocessing(songs):
     y, sr = librosa.load(song['path'])
     y = librosa.util.normalize(y)
     y = highpass_filter(y, sr)
+    y_harm, y_perc = librosa.effects.hpss(y)
 
-    return y, sr
+    return y_harm, y_perc, sr
 
 # Gets rid of any unwanted noise
 # Used to "clean" the audio of background noises
@@ -143,46 +158,15 @@ def highpass_filter(y, sr, cutoff=100.0):
 
 
 
-def simple_get_phrase_boundaries(songs):
-    #!Implementation of single song
-
-    song = songs[0]
-    y = song['y']
-    sr = song['sr']
-    y = y[:sr*30] #first 30 seconds
-
-
-    #Approximate Frames of note onsets
-    #onset_env = librosa.onset.onset_strength(y = song['y'], sr = song['sr'], units = 'frames')
-
-    rms = librosa.feature.rms(y=y)[0]
-
-    #Chroma feature
-    #Look for large sudden changes in chord or key
-    chroma = librosa.feature.chroma_stft(y = y, sr = sr)
-    chroma_diff = np.sum(np.abs(np.diff(chroma, axis=1)), axis=0)
-
-    rms_threshold = 0.05
-    candidate_frames = np.where((rms[:-1] < rms_threshold) & (chroma_diff > chroma_diff.mean()))[0]
-
-    #Conversion from frames to sec
-    boundaries_sec = librosa.frames_to_time(candidate_frames, sr=sr)
-
-    print("likely boundaries (seconds):")
-    for t in boundaries_sec:
-        print(f"{t:.2f}s")
-
-
 if __name__ == "__main__":
     #Current implementation will print a VERY SIMPLE implementation of finding phrase boundaries
     #Need to adjust to a new method
     #But will load a song and find the phrase boundaries in the first 30 seconds (doesn't do well)
     loader = SongLoader()
-    loader.load_songs("Music/Clarity.wav")
+    loader.load_songs("Music/wav_files/Clarity.wav")
 
     songs = loader.get_songs()
     if songs:
-        # simple_get_phrase_boundaries(songs)
         get_phrase_boundaries_complex(songs)
     else:
         print("no songs")
