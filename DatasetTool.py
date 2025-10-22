@@ -60,7 +60,7 @@ def get_phrase_boundaries_complex(songs):
 #  Takes the novelty function and converts it into phrase boundary times
 #  Only considers novelty value above certain maxima that meets the criteria
 def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=5, min_peak_distance_sec=1.0,
-                         threshold_factor=1.0):
+                         threshold_factor=3.0):
     n_frames = len(novelty)
     if L is None:
         L = int(0.5 * sr / hop_length)
