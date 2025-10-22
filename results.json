@@ -1,0 +1,65 @@
+[
+    {
+        "song_name": "waitingforlove-avicii.wav",
+        "features": {
+            "bpm": 128.06227111816406,
+            "key": "F#",
+            "scale": "minor",
+            "key_strength": 0.8878006935119629,
+            "last_phrase_boundaries": [
+                "03:05",
+                "03:20",
+                "03:35",
+                "03:49"
+            ],
+            "first_phrase_boundaries": [
+                "00:00",
+                "00:15",
+                "00:30",
+                "00:46"
+            ]
+        }
+    },
+    {
+        "song_name": "wakemeup-avicii.wav",
+        "features": {
+            "bpm": 123.60303497314453,
+            "key": "D",
+            "scale": "major",
+            "key_strength": 0.9240454435348511,
+            "last_phrase_boundaries": [
+                "03:06",
+                "03:22",
+                "03:37",
+                "03:53"
+            ],
+            "first_phrase_boundaries": [
+                "00:00",
+                "00:15",
+                "00:31",
+                "00:47"
+            ]
+        }
+    },
+    {
+        "song_name": "stargazing-kygo.wav",
+        "features": {
+            "bpm": 98.84703826904297,
+            "key": "F",
+            "scale": "major",
+            "key_strength": 0.9270086884498596,
+            "last_phrase_boundaries": [
+                "02:49",
+                "03:08",
+                "03:27",
+                "03:47"
+            ],
+            "first_phrase_boundaries": [
+                "00:00",
+                "00:17",
+                "00:34",
+                "00:52"
+            ]
+        }
+    }
+]
