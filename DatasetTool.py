@@ -39,9 +39,11 @@ class SongLoader:
 def get_phrase_boundaries_complex(songs):
     y_harm, y_perc, sr = preprocessing(songs)
 
-    #Features
+    #Harmonic Features
     chroma = compute_chroma(y_harm, sr)
     mfcc = compute_mfcc(y_harm, sr)
+
+    #Percussion Features
     tempogram, onset_env = compute_tempogram(y_perc, sr)
     flux = compute_spectral_flux(y_perc, sr)
     flux = np.pad(flux, (0, chroma.shape[1] - flux.shape[0]), mode='constant')
@@ -53,33 +55,80 @@ def get_phrase_boundaries_complex(songs):
     # I couldn't fully understand how to
     # recreate Foote's design https://ccrma.stanford.edu/workshops/mir2009/references/Foote_00.pdf
     SSM = cosine_similarity(features.T)
-    novelty = compute_novelty(SSM, sr)
+    # novelty = compute_novelty(SSM, sr)
+    novelty = compute_novelty_gaussian(SSM, sr)
     phrase_boundaries = post_process_novelty(novelty, sr)
     for t in phrase_boundaries:
         minutes = int(t // 60)
         seconds = t % 60
         print(f"{minutes:02d}:{seconds:04.1f}")
+        with open("gaussian_test.txt", "a") as f:
+            f.write(f"{minutes:02d}:{seconds:04.1f}\n")
 
 
 #  Takes the novelty function and converts it into phrase boundary times
 #  Only considers novelty value above certain maxima that meets the criteria
-def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=5, min_peak_distance_sec=1.0,
-                         threshold_factor=2.5):
+def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=25, min_peak_distance_sec=1.0,
+                         threshold_factor=1):
     n_frames = len(novelty)
     if L is None:
-        L = int(0.5 * sr / hop_length)
+        L = int(2.0 * sr / hop_length)
 
     novelty_smooth = np.convolve(novelty, np.ones(smoothing_window)/smoothing_window, mode='same')
 
     min_height = np.mean(novelty_smooth) * threshold_factor
     min_distance_frames = int(min_peak_distance_sec * sr / hop_length)
+
     peaks, _ = find_peaks(novelty_smooth, height=min_height, distance=min_distance_frames)
 
-    if len(peaks) == 0:
-        peaks = np.arange(L, n_frames, 2*L)
+    # if len(peaks) == 0:
+    #     peaks = np.arange(L, n_frames, 2*L)
 
-    return librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
+    valid_peaks = []
+    min_sustain_frames = int(0.2 * sr / hop_length)
 
+    for peak in peaks:
+        start = max(0, peak - min_sustain_frames // 2)
+        end = min(n_frames, peak + min_sustain_frames // 2)
+        region = novelty_smooth[start:end]
+        if np.mean(region > min_height) > 0.6:
+            valid_peaks.append(peak)
+    if len(valid_peaks) == 0:
+        valid_peaks = np.arange(L, n_frames, 2*L)
+
+    return librosa.frames_to_time(valid_peaks, sr=sr, hop_length=hop_length)
+    # return librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
+
+def compute_novelty_gaussian(SSM, sr, L=None, hop_length=512, sigma=1.0):
+    n_frames = SSM.shape[0]
+    novelty = np.zeros(n_frames)
+
+    if L is None:
+        L = int(0.5 * sr / hop_length)
+    if 2*L+1 > n_frames:
+        L = (n_frames - 1) // 2
+
+    kernel = gaussian_checkerboard(L, sigma=L/2)
+
+    for t in range(L, n_frames - L):
+        block = SSM[t-L:t+L+1, t-L:t+L+1]
+        novelty[t] = np.sum(kernel * block)
+
+    return novelty
+
+
+#This creates the kernel used later for the SSM math
+def gaussian_checkerboard(L, sigma=1.0):
+    x = np.arange(-L, L+1)
+    y = np.arange(-L, L+1)
+    x, y = np.meshgrid(x, y)
+
+    g = np.exp(-(x**2 + y**2) / (2.0 * sigma**2))
+
+    checkerboard = np.ones((2*L+1, 2*L+1))
+    checkerboard[L+1:, :L] = -1
+    checkerboard[:L, L+1:] = -1
+    return g * checkerboard
 # Computes the similarity between two frames
 # Computes using a self similarity matrix and a checkerboard kernel to detect if frames are similar or not
 # The greater the difference between the features of two frames, the more likely to be a phrase boundary
@@ -95,6 +144,7 @@ def compute_novelty(SSM, sr, L=None, hop_length=512):
 
         novelty[t] = np.sum(np.abs(left_block - right_block))
     return novelty
+
 
 #This help detects beatdrops in the song
 def compute_spectral_flux(y, sr, hop_length=512, n_fft=2048):
