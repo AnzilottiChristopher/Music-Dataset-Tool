@@ -1,11 +1,16 @@
+import glob
 import os
 from locale import normalize
 from pathlib import Path
 from scipy.signal import butter, filtfilt, find_peaks
 from sklearn.metrics.pairwise import cosine_similarity
+from scipy.stats import pearsonr
+from multiprocessing import Pool
+from multiprocessing.dummy import Pool as ThreadPool
 
 import librosa
 import numpy as np
+import re
 
 class SongLoader:
     def __init__(self):
@@ -17,17 +22,19 @@ class SongLoader:
             filePath = Path(file_path)
 
         # Taking each file in filepath
-        # for file in filePath:
-        #     try:
-        #         y, sr = librosa.load(file, sr=sr) # loads the raw waveform in y and stores the sample rate in sr
-        #         self.songs.append({'path': file, 'y': y, 'sr': sr})
-        #     except Exception as e:
-        #         print(f" could not load {file}: {e}")
-        try:
-            y, sr = librosa.load(filePath, sr=sr)
-            self.songs.append({'path': filePath, 'y': y, 'sr': sr})
-        except Exception as e:
-            print(f" could not load {file_path}: {e}")
+        if isinstance(file_path, (list, tuple)):
+            for file in file_path:
+                try:
+                    y, sr = librosa.load(file, sr=sr) # loads the raw waveform in y and stores the sample rate in sr
+                    self.songs.append({'path': file, 'y': y, 'sr': sr})
+                except Exception as e:
+                    print(f" could not load {file}: {e}")
+        else:
+            try:
+                y, sr = librosa.load(filePath, sr=sr)
+                self.songs.append({'path': filePath, 'y': y, 'sr': sr})
+            except Exception as e:
+                print(f" could not load {file_path}: {e}")
 
     def get_songs(self):
         return self.songs
@@ -36,8 +43,8 @@ class SongLoader:
 
 
 
-def get_phrase_boundaries_complex(songs):
-    y_harm, y_perc, sr = preprocessing(songs)
+def get_phrase_boundaries_complex(song):
+    y_harm, y_perc, sr = preprocessing(song)
 
     #Harmonic Features
     chroma = compute_chroma(y_harm, sr)
@@ -58,12 +65,16 @@ def get_phrase_boundaries_complex(songs):
     # novelty = compute_novelty(SSM, sr)
     novelty = compute_novelty_gaussian(SSM, sr)
     phrase_boundaries = post_process_novelty(novelty, sr)
+
+    path = Path(song['path']).as_posix()
+    print(re.sub(r'^Music/wav_files/|\.wav$', '', path) + ':')
     for t in phrase_boundaries:
         minutes = int(t // 60)
         seconds = t % 60
         print(f"{minutes:02d}:{seconds:04.1f}")
-        with open("gaussian_test.txt", "a") as f:
-            f.write(f"{minutes:02d}:{seconds:04.1f}\n")
+    print("\n")
+        # with open("gaussian_test.txt", "a") as f:
+        #     f.write(f"{minutes:02d}:{seconds:04.1f}\n")
 
 
 #  Takes the novelty function and converts it into phrase boundary times
@@ -189,8 +200,7 @@ def compute_chroma(y, sr):
 
 # This gets the audio waveform (y) and the sample rate (sr)
 # y is the audio data sr is the scale
-def preprocessing(songs):
-    song = songs[0]
+def preprocessing(song):
     y, sr = librosa.load(song['path'])
     y = librosa.util.normalize(y)
     y = highpass_filter(y, sr)
@@ -206,19 +216,28 @@ def highpass_filter(y, sr, cutoff=100.0):
     y = filtfilt(b, a, y)
     return y
 
-
-
 if __name__ == "__main__":
-    #Current implementation will print a VERY SIMPLE implementation of finding phrase boundaries
-    #Need to adjust to a new method
-    #But will load a song and find the phrase boundaries in the first 30 seconds (doesn't do well)
+    folder = "Music/wav_files/"
+    file_paths = glob.glob(os.path.join(folder, "*.wav"))
     loader = SongLoader()
-    loader.load_songs("Music/wav_files/Clarity.wav")
+    loader.load_songs(file_paths)
 
     songs = loader.get_songs()
+
+    # Simple threading for each song to speed up the process
+    max_threads = 10
+    if len(songs) > max_threads:
+        max_threads = len(songs)
+
+    pool = Pool(max_threads)
+
     if songs:
-        get_phrase_boundaries_complex(songs)
+        # get_phrase_boundaries_complex(songs)
+        pool.map(get_phrase_boundaries_complex, songs)
     else:
         print("no songs")
+
+    pool.close()
+    pool.join()
 
 
