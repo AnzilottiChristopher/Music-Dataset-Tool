@@ -5,12 +5,13 @@ from pathlib import Path
 from scipy.signal import butter, filtfilt, find_peaks
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import pearsonr
-from multiprocessing import Pool
+from multiprocessing import Pool, Lock, Manager
 from multiprocessing.dummy import Pool as ThreadPool
 
 import librosa
 import numpy as np
 import re
+import json
 
 class SongLoader:
     def __init__(self):
@@ -43,7 +44,7 @@ class SongLoader:
 
 
 
-def get_phrase_boundaries_complex(song):
+def get_phrase_boundaries_complex(song, lock):
     y_harm, y_perc, sr = preprocessing(song)
 
     #Harmonic Features
@@ -67,15 +68,48 @@ def get_phrase_boundaries_complex(song):
     phrase_boundaries = post_process_novelty(novelty, sr)
 
     path = Path(song['path']).as_posix()
-    print(re.sub(r'^Music/wav_files/|\.wav$', '', path) + ':')
+
+    results_path = "PhraseBoundaries_Results.json"
+
+    data_dump = [
+        {
+            "Song_name": re.sub(r'^Music/wav_files/|\.wav$', '', path + ':'),
+            "features": {
+                "bpm": "",
+                "key": "",
+                "scale": "",
+                "key_strength": "",
+                "first_phrase_boundaries": format_boundaries(phrase_boundaries[:15]),
+                "last_phrase_boundaries": format_boundaries(phrase_boundaries[len(phrase_boundaries) - 15:]),
+            }
+        }
+    ]
+    with lock:
+        if not os.path.exists(results_path):
+            with open(results_path, 'w') as outfile:
+                json.dump(data_dump, outfile)
+        else:
+            with open(results_path, 'r') as infile:
+                try:
+                    data = json.load(infile)
+                    if isinstance(data, dict):
+                        data = [data]
+                except json.JSONDecodeError:
+                    data = []
+            data.extend(data_dump)
+            with open(results_path, 'w') as outfile:
+                json.dump(data, outfile, indent=4, ensure_ascii=False)
+
+
+
+# Converts to minute:second format
+def format_boundaries(phrase_boundaries):
+    formatted = []
     for t in phrase_boundaries:
         minutes = int(t // 60)
         seconds = t % 60
-        print(f"{minutes:02d}:{seconds:04.1f}")
-    print("\n")
-        # with open("gaussian_test.txt", "a") as f:
-        #     f.write(f"{minutes:02d}:{seconds:04.1f}\n")
-
+        formatted.append(f"{minutes:02d}:{seconds:04.1f}")
+    return formatted
 
 #  Takes the novelty function and converts it into phrase boundary times
 #  Only considers novelty value above certain maxima that meets the criteria
@@ -230,14 +264,17 @@ if __name__ == "__main__":
         max_threads = len(songs)
 
     pool = Pool(max_threads)
-
-    if songs:
-        # get_phrase_boundaries_complex(songs)
-        pool.map(get_phrase_boundaries_complex, songs)
-    else:
-        print("no songs")
+    with Manager() as manager:
+        lock = manager.Lock()
+        if songs:
+            # get_phrase_boundaries_complex(songs)
+            with Pool(max_threads) as pool:
+                pool.starmap(get_phrase_boundaries_complex, [(song, lock) for song in songs])
+        else:
+            print("no songs")
 
     pool.close()
     pool.join()
+
 
 
