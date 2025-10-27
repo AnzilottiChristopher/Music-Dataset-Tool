@@ -1,5 +1,10 @@
 import glob
 import os
+import librosa
+import numpy as np
+import re
+import json
+
 from locale import normalize
 from pathlib import Path
 from scipy.signal import butter, filtfilt, find_peaks
@@ -7,11 +12,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import pearsonr
 from multiprocessing import Pool, Lock, Manager
 from multiprocessing.dummy import Pool as ThreadPool
+from WriteToJson import writeToJson
 
-import librosa
-import numpy as np
-import re
-import json
 
 class SongLoader:
     def __init__(self):
@@ -79,26 +81,18 @@ def get_phrase_boundaries_complex(song, lock):
                 "key": "",
                 "scale": "",
                 "key_strength": "",
-                "first_phrase_boundaries": format_boundaries(phrase_boundaries[:15]),
-                "last_phrase_boundaries": format_boundaries(phrase_boundaries[len(phrase_boundaries) - 15:]),
+                "first_phrase_boundaries": format_boundaries(phrase_boundaries[:25]),
+                "last_phrase_boundaries": format_boundaries(phrase_boundaries[len(phrase_boundaries) - 25:]),
             }
         }
     ]
+
+    file_json = writeToJson(data_dump, results_path)
     with lock:
         if not os.path.exists(results_path):
-            with open(results_path, 'w') as outfile:
-                json.dump(data_dump, outfile)
+            file_json.create_file()
         else:
-            with open(results_path, 'r') as infile:
-                try:
-                    data = json.load(infile)
-                    if isinstance(data, dict):
-                        data = [data]
-                except json.JSONDecodeError:
-                    data = []
-            data.extend(data_dump)
-            with open(results_path, 'w') as outfile:
-                json.dump(data, outfile, indent=4, ensure_ascii=False)
+            file_json.add_entry(data_dump)
 
 
 
@@ -174,6 +168,7 @@ def gaussian_checkerboard(L, sigma=1.0):
     checkerboard[L+1:, :L] = -1
     checkerboard[:L, L+1:] = -1
     return g * checkerboard
+
 # Computes the similarity between two frames
 # Computes using a self similarity matrix and a checkerboard kernel to detect if frames are similar or not
 # The greater the difference between the features of two frames, the more likely to be a phrase boundary
@@ -263,7 +258,6 @@ if __name__ == "__main__":
     if len(songs) > max_threads:
         max_threads = len(songs)
 
-    pool = Pool(max_threads)
     with Manager() as manager:
         lock = manager.Lock()
         if songs:
@@ -273,8 +267,6 @@ if __name__ == "__main__":
         else:
             print("no songs")
 
-    pool.close()
-    pool.join()
 
 
 
