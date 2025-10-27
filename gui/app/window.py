@@ -1,22 +1,36 @@
-# this will serve as the main window
-
 import tkinter as tk
-from app.widgets.file_selector import FileSelector
+from app.pages.start_page import StartPage
+from app.pages.analysis_page import AnalysisPage
+
 
 class MainWindow:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Dataset Creation Tool")
         self.root.geometry("800x600")
-        
-        self.root.configure(bg="#ffffff") # white background, change to what we want
-        self.file_selector = FileSelector(self.root, on_select=self.on_file_selected)
-        self.file_selector.pack(pady=40)
-        
-    # just to test
-    def on_file_selected(self, path):
-        print(f"user selected JSON file: {path}")
-        
+        self.root.configure(bg="#1e1e1e")
+
+        # container for pages
+        self.container = tk.Frame(self.root, bg="#1e1e1e")
+        self.container.pack(fill="both", expand=True)
+
+        # start page
+        self.show_start_page()
+
+    def show_start_page(self):
+        self.clear_container()
+        self.page = StartPage(self.container, on_continue=self.show_analysis_page)
+        self.page.pack(fill="both", expand=True)
+
+    def show_analysis_page(self, file_path, folder_path):
+        self.clear_container()
+        self.page = AnalysisPage(self.container, file_path, folder_path)
+        self.page.pack(fill="both", expand=True)
+
+    def clear_container(self):
+        for widget in self.container.winfo_children():
+            widget.destroy()
+
     def run(self):
-        print('App is now running') # so this is not running
+        print("app is now running")
         self.root.mainloop()

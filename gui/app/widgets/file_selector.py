@@ -11,13 +11,14 @@ class FileSelector(tk.Frame):
         
         self.on_select = on_select # this will be a function
         self.selected_file = None 
+        # self.selected_file = "/Users/alexpower/Documents/Music-Dataset-Tool/results.json"
         
         self.select_button = tk.Button(
             self,
             text="Select JSON File",
             command=self.select_json_file,
             bg="#2e2e2e",
-            fg="white",
+            fg="black",
             activebackground="#3e3e3e",
             padx=10,
             pady=5
@@ -33,12 +34,15 @@ class FileSelector(tk.Frame):
             wraplength=500
         )
         self.file_label.pack(pady=5)
+
         
     def select_json_file(self):
         file_path = filedialog.askopenfilename(
             title="Select JSON file",
             filetypes=[("JSON Files", "*.json"), ("All Files", "*.*")]
         )
+        
+        # file_path = "/Users/alexpower/Documents/Music-Dataset-Tool/results.json"
 
         if file_path:
             self.selected_file = file_path
@@ -48,4 +52,12 @@ class FileSelector(tk.Frame):
                 self.on_select(file_path)
         else:
             self.file_label.config(text="No file selected")
+    
+    # this will be need for verification     
+    def get_file(self):
+        if self.selected_file is None:
+            print(f"no file was selected")
+        else:
+            return self.selected_file
+        
         

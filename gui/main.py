@@ -48,7 +48,7 @@
 #       "comment": "Does not pair well"
 #     }
 #   ]
-#
+#}
 
 from app.window import MainWindow
 
