@@ -34,8 +34,8 @@ class ContinueButton(tk.Frame):
     # verify both things exist before advancing
     def continue_pressed(self):
         # uncomment this for quickly skipping to analysis page
-        self.file_path = "/Users/alexpower/Documents/Music-Dataset-Tool/results.json"
-        self.folder_path = "/Users/alexpower/Documents/Music-Dataset-Tool/Music/wav_files"
+        # self.file_path = "/Users/alexpower/Documents/Music-Dataset-Tool/results.json"
+        # self.folder_path = "/Users/alexpower/Documents/Music-Dataset-Tool/Music/wav_files"
         
         if not self.file_path or not self.folder_path:
             messagebox.showwarning(
