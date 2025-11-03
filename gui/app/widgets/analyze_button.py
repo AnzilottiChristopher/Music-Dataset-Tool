@@ -5,6 +5,9 @@ import os,sys, json
 from pathlib import Path
 import shutil
 
+from jupyter_core.version import parts
+
+
 class AnalyzeButton(tk.Frame):
     def __init__(self, parent, json_path, folder_path, on_complete=None):
         super().__init__(parent)
@@ -106,11 +109,18 @@ class AnalyzeButton(tk.Frame):
                         
     def _time_to_secs(self, time):
         str_representation = str(time)
-        minutes, seconds = str_representation.split(':')
+        part = str_representation.split(':')
+
+        if len(part) == 2:
+            minutes, seconds = part
+            return int(minutes) * 60 + float(seconds)
+        else:
+            return float(part[0])
+
         
-        minutes = minutes[1]
-        
-        return float((int(minutes) * 60) + (int(seconds)))
+        # minutes = minutes[1]
+        #
+        # return float((int(minutes) * 60) + (int(seconds)))
     
     
     

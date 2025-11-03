@@ -73,19 +73,22 @@ def get_phrase_boundaries_complex(song, lock):
 
     results_path = "PhraseBoundaries_Results.json"
 
-    data_dump = [
-        {
-            "Song_name": re.sub(r'^Music/wav_files/|\.wav$', '', path + ':'),
-            "features": {
-                "bpm": "",
-                "key": "",
-                "scale": "",
-                "key_strength": "",
-                "first_phrase_boundaries": format_boundaries(phrase_boundaries[:25]),
-                "last_phrase_boundaries": format_boundaries(phrase_boundaries[len(phrase_boundaries) - 25:]),
+    data_dump = {
+        "songs": [
+            {
+                "song_name": re.sub(r'^Music/wav_files/', '', path),
+                "features": {
+                    "bpm": "",
+                    "key": "",
+                    "scale": "",
+                    "key_strength": "",
+                    "first_phrase_boundaries": format_boundaries(phrase_boundaries[:5]),
+                    "last_phrase_boundaries": format_boundaries(phrase_boundaries[len(phrase_boundaries) - 5:]),
+                }
             }
-        }
-    ]
+        ]
+    }
+
 
     file_json = writeToJson(data_dump, results_path)
     with lock:
@@ -108,7 +111,7 @@ def format_boundaries(phrase_boundaries):
 #  Takes the novelty function and converts it into phrase boundary times
 #  Only considers novelty value above certain maxima that meets the criteria
 def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=25, min_peak_distance_sec=1.0,
-                         threshold_factor=1):
+                         threshold_factor=1, top_k = 10):
     n_frames = len(novelty)
     if L is None:
         L = int(2.0 * sr / hop_length)
@@ -135,6 +138,12 @@ def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window
     if len(valid_peaks) == 0:
         valid_peaks = np.arange(L, n_frames, 2*L)
 
+    if len(valid_peaks) > top_k:
+        valid_peaks = np.array(valid_peaks)
+        top_indices = np.argsort(novelty_smooth[valid_peaks])[-top_k:][::-1]
+        valid_peaks = valid_peaks[top_indices]
+    valid_peaks = np.sort(valid_peaks)
+    
     return librosa.frames_to_time(valid_peaks, sr=sr, hop_length=hop_length)
     # return librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
 

@@ -22,6 +22,7 @@ class writeToJson:
         data = self.resolve(data, 'data')
         path = self.resolve(path, 'path')
 
+
         try:
             with open(path, 'w') as f:
                 json.dump(self.data, f)
@@ -31,14 +32,23 @@ class writeToJson:
     def add_entry(self, data, path=None):
         path = self.resolve(path, 'path')
 
-        with open(path, 'r+') as i:
-            try:
-                self.data = json.load(i)
-            except json.JSONDecodeError:
-                self.create_file(path)
-            self.data.extend(data)
-            with open(self.path, 'w') as f:
-                json.dump(self.data, f, indent=4, ensure_ascii=False)
+        # Load existing data or create a new structure
+        try:
+            with open(path, 'r') as f:
+                self.data = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            self.data = {"songs": []}
+
+        # Ensure structure consistency
+        if "songs" not in self.data:
+            self.data["songs"] = []
+
+        # Append new songs
+        self.data["songs"].extend(data["songs"])
+
+        # Write updated JSON
+        with open(path, 'w') as f:
+            json.dump(self.data, f, indent=4, ensure_ascii=False)
 
     def append_entry(self, data, entry, path=None):
         path = self.resolve(path, 'path')
@@ -49,10 +59,10 @@ class writeToJson:
             except:
                 print("file not found")
 
-        if entry.lower() == 'Song_name'.lower():
+        if entry.lower() == 'song_name'.lower():
             for i in self.data:
                 if i['song_name'].lower() == song_name.lower():
-                    self.data[0]['Song_name'] = data[0]['Song_name']
+                    self.data[0]['song_name'] = data[0]['song_name']
         else:
             return
 
