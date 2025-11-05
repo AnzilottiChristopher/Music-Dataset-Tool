@@ -5,7 +5,7 @@
 # second, match each phrase entry bounary with all the phrase exit boundaries of the other song
 # - Apply the premade transition at each point (simple one for now), allow to provide a ranking and some comments
 # ensure we skip over already completed pairs, so not really n^2
-# once we give a ranking, it should update the json format to be trained with 
+# once we give a ranking, it should update the json format to be trained with
 
 # actually this only requires us to loop through the songs once, so this shouldnt be all that bad as matching a song
 # with the others will only require us to check the rest of the list, as it has already been compared to songs before it
@@ -48,7 +48,7 @@
 #       "comment": "Does not pair well"
 #     }
 #   ]
-#}
+# }
 
 from app.window import MainWindow
 

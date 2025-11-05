@@ -86,8 +86,26 @@ class AnalyzeButton(tk.Frame):
 
                         output_path = new_folder_path / audio_file_name
 
-                        _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
-                                                     time_b=entry_time, output_path=output_path)
+                        exit_time = self._time_to_secs(exit_boundary)
+                        entry_time = self._time_to_secs(entry_boundary)
+
+                        trend_a = compute_trend_line(
+                            song_a_path, boundary_time=exit_time, duration=2.0)
+                        trend_b = compute_trend_line(
+                            song_b_path, boundary_time=entry_time+2.0, duration=2.0)
+
+                        end_loud_a = np.mean(trend_a[-50:])
+                        start_loud_b = np.mean(trend_b[:50])
+
+                        if abs(end_loud_a - start_loud_b) < 0.2:
+                            _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
+                                                         time_b=entry_time, output_path=output_path)
+                        else:
+                            print("Skipping transition")
+
+                        # Uncomment this and comment out from exit_time to print for the original way
+                        # _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
+                        #                                  time_b=entry_time, output_path=output_path)
 
                 # NOW WE GO THE OTHER WAY, ESSENTIALLY COPYING WHAT WE HAVE DONE HERE
                 exit_boundaries_b = song_b['features']['last_phrase_boundaries']
@@ -109,8 +127,26 @@ class AnalyzeButton(tk.Frame):
 
                         output_path = new_folder_path / audio_file_name
 
-                        _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
-                                                     time_b=entry_time, output_path=output_path)
+                        exit_time = self._time_to_secs(exit_boundary)
+                        entry_time = self._time_to_secs(entry_boundary)
+
+                        trend_a = compute_trend_line(
+                            song_a_path, boundary_time=exit_time, duration=2.0)
+                        trend_b = compute_trend_line(
+                            song_b_path, boundary_time=entry_time+2.0, duration=2.0)
+
+                        end_loud_a = np.mean(trend_a[-50:])
+                        start_loud_b = np.mean(trend_b[:50])
+
+                        if abs(end_loud_a - start_loud_b) < 0.2:
+                            _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
+                                                         time_b=entry_time, output_path=output_path)
+                        else:
+                            print("Skipping transition")
+
+                        # Uncomment this and comment out from exit_time to print for the original way
+                        # _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
+                        #                                  time_b=entry_time, output_path=output_path)
 
         if callable(self.on_complete):
             self.on_complete(new_folder_path)
@@ -129,19 +165,24 @@ class AnalyzeButton(tk.Frame):
         #
         # return float((int(minutes) * 60) + (int(seconds)))
 
-    def compute_trend_line(audio_path, entry_boundary, exit_boundary, num_windows=700):
-        y, sr = librosa.load(audio_path, sr=None, mono=True)
-        total_samples = len(y)
 
-        # Ensure y fits exactly into windows
-        window_size = total_samples // num_windows
-        trimmed = y[:window_size *
-                    num_windows].reshape(num_windows, window_size)
+def compute_trend_line(song, boundary_time, duration=2.0, num_windows=700):
+    y, sr = librosa.load(song, sr=None)
 
-        # Compute average amplitude per window
-        trend_line = np.mean(np.abs(trimmed), axis=1)
+    start_sample = max(0, int((boundary_time - duration) * sr))
+    end_sample = min(len(y), int(boundary_time * sr))
 
-        # Normalize to 0-1
-        trend_line /= trend_line.max() + 1e-9
+    segment = y[start_sample:end_sample]
 
-        return trend_line
+    if len(segment) < num_windows:
+        segment = np.pad(segment, (0, num_windows - len(segment)))
+
+    total_samples = len(segment)
+    window_size = total_samples // num_windows
+    trimmed = segment[:window_size *
+                      num_windows].reshape(num_windows, window_size)
+
+    trend_line = np.mean(np.abs(trimmed), axis=1)
+    trend_line /= trend_line.max() + 1e-9
+
+    return trend_line

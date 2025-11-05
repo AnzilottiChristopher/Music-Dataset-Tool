@@ -4,3 +4,4 @@ Music/
 .venv
 __pycache__/
 *.pyc
+.condaenv

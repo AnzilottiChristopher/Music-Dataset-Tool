@@ -99,16 +99,16 @@
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "140.9",
       "entry_boundary": "13.2",
-      "rating": 2,
-      "comment": "Different BPM \nNot good\nAwkward Transition"
+      "rating": 1,
+      "comment": ""
     },
     {
       "song_a": "Clarity.wav",
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "140.9",
       "entry_boundary": "23.9",
-      "rating": 3,
-      "comment": "Not great\nfirst half rising second more descending"
+      "rating": 1,
+      "comment": ""
     },
     {
       "song_a": "Clarity.wav",
@@ -116,35 +116,27 @@
       "exit_boundary": "140.9",
       "entry_boundary": "37.2",
       "rating": 1,
-      "comment": "Not good"
+      "comment": ""
     },
     {
       "song_a": "Clarity.wav",
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "140.9",
       "entry_boundary": "42.9",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "Clarity.wav",
+      "song_b": "stargazing-kygo.wav",
+      "exit_boundary": "140.9",
+      "entry_boundary": "8.1",
       "rating": 4,
       "comment": ""
     },
     {
       "song_a": "Clarity.wav",
       "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "8.1",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "13.2",
-      "rating": 1,
-      "comment": "Both would need to be same BPM,\nGood transition point for first song terrible for second"
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
       "exit_boundary": "206.7",
       "entry_boundary": "23.9",
       "rating": 1,
@@ -154,71 +146,7 @@
       "song_a": "Clarity.wav",
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "206.7",
-      "entry_boundary": "37.2",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "206.7",
       "entry_boundary": "42.9",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "8.1",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "13.2",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "23.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "37.2",
-      "rating": 3,
-      "comment": "It transitions at a good point of the first song terrible start of the second"
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "42.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "8.1",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "13.2",
       "rating": 1,
       "comment": ""
     },
@@ -235,7 +163,7 @@
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "237.4",
       "entry_boundary": "37.2",
-      "rating": 1,
+      "rating": 3,
       "comment": ""
     },
     {
@@ -243,7 +171,7 @@
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "237.4",
       "entry_boundary": "42.9",
-      "rating": 2,
+      "rating": 1,
       "comment": ""
     },
     {
@@ -251,31 +179,15 @@
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "237.4",
       "entry_boundary": "8.1",
-      "rating": 1,
+      "rating": 3,
       "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "13.2",
-      "rating": 5,
-      "comment": "It's the end of the first song fading into the next"
     },
     {
       "song_a": "Clarity.wav",
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "260.4",
       "entry_boundary": "23.9",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "37.2",
-      "rating": 1,
+      "rating": 5,
       "comment": ""
     },
     {
@@ -283,181 +195,13 @@
       "song_b": "stargazing-kygo.wav",
       "exit_boundary": "260.4",
       "entry_boundary": "42.9",
-      "rating": 6,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "stargazing-kygo.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "8.1",
-      "rating": 4,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "10.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "20.1",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "7.2",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "78.8",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "88.4",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "10.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "20.1",
-      "rating": 3,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "7.2",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "78.8",
-      "rating": 7,
-      "comment": "This one is interesting"
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "88.4",
-      "rating": 8,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "10.8",
-      "rating": 3,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "20.1",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "7.2",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "78.8",
-      "rating": 5,
-      "comment": "Two parts of songs that rise to a beatdrop"
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "88.4",
-      "rating": 3,
-      "comment": "A few seconds too early for the second song"
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "10.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "20.1",
       "rating": 5,
       "comment": ""
     },
     {
       "song_a": "Clarity.wav",
       "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "7.2",
-      "rating": 4,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "78.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "88.4",
-      "rating": 8,
-      "comment": "Not terrible"
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "260.4",
+      "exit_boundary": "140.9",
       "entry_boundary": "10.8",
       "rating": 1,
       "comment": ""
@@ -465,7 +209,7 @@
     {
       "song_a": "Clarity.wav",
       "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "260.4",
+      "exit_boundary": "140.9",
       "entry_boundary": "20.1",
       "rating": 1,
       "comment": ""
@@ -473,7 +217,7 @@
     {
       "song_a": "Clarity.wav",
       "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "260.4",
+      "exit_boundary": "140.9",
       "entry_boundary": "7.2",
       "rating": 1,
       "comment": ""
@@ -481,554 +225,42 @@
     {
       "song_a": "Clarity.wav",
       "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "78.8",
-      "rating": 3,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "88.4",
-      "rating": 5,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
       "exit_boundary": "140.9",
-      "entry_boundary": "1.0",
-      "rating": 4,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "10.4",
-      "rating": 6,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "12.9",
-      "rating": 6,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "30.5",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "140.9",
-      "entry_boundary": "8.8",
-      "rating": 3,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "1.0",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "10.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "12.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "30.5",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "206.7",
-      "entry_boundary": "8.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "1.0",
-      "rating": 3,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "10.4",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "12.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "30.5",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "208.2",
-      "entry_boundary": "8.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "1.0",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "10.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "12.9",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "30.5",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "237.4",
-      "entry_boundary": "8.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "1.0",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "10.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "12.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "30.5",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "Clarity.wav",
-      "song_b": "wakemeup-avicii.wav",
-      "exit_boundary": "260.4",
-      "entry_boundary": "8.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "125.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "13.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "133.4",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "20.9",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "5.5",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "125.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "13.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "133.4",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "20.9",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "5.5",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "125.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "13.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "133.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "20.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "5.5",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "61.1",
-      "entry_boundary": "125.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "61.1",
-      "entry_boundary": "13.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "61.1",
-      "entry_boundary": "133.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "61.1",
-      "entry_boundary": "20.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "61.1",
-      "entry_boundary": "5.5",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "89.9",
-      "entry_boundary": "125.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "89.9",
-      "entry_boundary": "13.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "89.9",
-      "entry_boundary": "133.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "89.9",
-      "entry_boundary": "20.9",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "Clarity.wav",
-      "exit_boundary": "89.9",
-      "entry_boundary": "5.5",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "10.8",
-      "rating": 4,
-      "comment": "It's getting better than before.\nThis has an overlap of voices though"
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "20.1",
-      "rating": 3,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "112.4",
-      "entry_boundary": "7.2",
-      "rating": 5,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "112.4",
       "entry_boundary": "78.8",
       "rating": 1,
       "comment": ""
     },
     {
-      "song_a": "stargazing-kygo.wav",
+      "song_a": "Clarity.wav",
       "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "112.4",
+      "exit_boundary": "140.9",
       "entry_boundary": "88.4",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "10.8",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "20.1",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "7.2",
-      "rating": 4,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "78.8",
-      "rating": 7,
-      "comment": "Liked how the first song had words but transitioned to one without words. So it didn't sound off"
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "117.2",
-      "entry_boundary": "88.4",
-      "rating": 4,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "10.8",
-      "rating": 2,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "20.1",
-      "rating": 4,
-      "comment": "Close but not perfect"
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "7.2",
-      "rating": 4,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "78.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "191.7",
-      "entry_boundary": "88.4",
-      "rating": 5,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "61.1",
-      "entry_boundary": "10.8",
-      "rating": 1,
-      "comment": ""
-    },
-    {
-      "song_a": "stargazing-kygo.wav",
-      "song_b": "waitingforlove-avicii.wav",
-      "exit_boundary": "61.1",
-      "entry_boundary": "20.1",
       "rating": 3,
-      "comment": "It's nice that the first song's word ends and the second starts. Don't think it's good"
+      "comment": ""
+    },
+    {
+      "song_a": "Clarity.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "206.7",
+      "entry_boundary": "20.1",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "Clarity.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "206.7",
+      "entry_boundary": "78.8",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "Clarity.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "206.7",
+      "entry_boundary": "88.4",
+      "rating": 1,
+      "comment": ""
     }
   ]
 }
