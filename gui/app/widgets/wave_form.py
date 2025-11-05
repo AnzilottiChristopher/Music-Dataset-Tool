@@ -1,7 +1,7 @@
 import tkinter as tk
 import librosa
 import numpy as np
-import time
+
 
 class WaveForm(tk.Canvas):
     def __init__(self, parent, width=700, height=100, bg="#ffffff", peak_color="#5ad", centerline="#333"):
@@ -19,7 +19,7 @@ class WaveForm(tk.Canvas):
         self._start_time = None
         self._running = False
         self._frame_delay = 10  # 30fps
-        
+
     def load_audio(self, path):
         y, sr = librosa.load(path, sr=None, mono=True)
         self._y, self._sr = y, sr
@@ -27,7 +27,7 @@ class WaveForm(tk.Canvas):
         self.draw_waveform()
         # Reset playhead to start position
         self.stop_playhead()
-        
+
     def draw_waveform(self):
         # Don't delete the playhead!
         self.delete("waveform")  # Only delete waveform elements
@@ -54,14 +54,16 @@ class WaveForm(tk.Canvas):
             peaks = peaks / m
 
         # Tag all waveform elements so we can delete them separately
-        self.create_line(0, mid, w, mid, fill=self._centerline_color, tags="waveform")
+        self.create_line(
+            0, mid, w, mid, fill=self._centerline_color, tags="waveform")
 
         for x in range(w):
             amp = peaks[x] * half_h
             y0 = mid - amp
             y1 = mid + amp
-            self.create_line(x, y0, x, y1, fill=self._peak_color, tags="waveform")
-                
+            self.create_line(
+                x, y0, x, y1, fill=self._peak_color, tags="waveform")
+
     def set_peak_color(self, color: str):
         self._peak_color = color
         if self._y is not None:
@@ -71,13 +73,12 @@ class WaveForm(tk.Canvas):
         self.delete("all")
         self._y = None
         self._sr = None
-        
+
     def start_playhead(self):
         """Start playhead synced to actual pygame playback."""
         if self.duration <= 0:
             return
 
-        import pygame
         self._running = True
 
         # Create playhead if missing
@@ -85,16 +86,16 @@ class WaveForm(tk.Canvas):
             self.playhead_id = self.create_line(
                 0, 0, 0, self._height, fill="red", width=2, tags="playhead"
             )
-        
+
         # Make sure it's visible and at the start
         self.coords(self.playhead_id, 0, 0, 0, self._height)
         self.tag_raise("playhead")  # Bring to front
 
         self._update_playhead_sync()
-        
+
     def _update_playhead_sync(self):
         """Update playhead using pygame's reported position."""
-        
+
         import pygame
         if not self._running:
             return
@@ -109,7 +110,7 @@ class WaveForm(tk.Canvas):
 
         # pygame.mixer.music.get_pos() returns elapsed time in milliseconds
         pos_ms = pygame.mixer.music.get_pos()
-        
+
         # get_pos() can return -1 briefly at the start, so skip this frame
         if pos_ms < 0:
             self.after(self._frame_delay, self._update_playhead_sync)

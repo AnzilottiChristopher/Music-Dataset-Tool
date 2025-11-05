@@ -28,7 +28,8 @@ class SongLoader:
         if isinstance(file_path, (list, tuple)):
             for file in file_path:
                 try:
-                    y, sr = librosa.load(file, sr=sr) # loads the raw waveform in y and stores the sample rate in sr
+                    # loads the raw waveform in y and stores the sample rate in sr
+                    y, sr = librosa.load(file, sr=sr)
                     self.songs.append({'path': file, 'y': y, 'sr': sr})
                 except Exception as e:
                     print(f" could not load {file}: {e}")
@@ -43,22 +44,20 @@ class SongLoader:
         return self.songs
 
 
-
-
-
 def get_phrase_boundaries_complex(song, lock):
     y_harm, y_perc, sr = preprocessing(song)
 
-    #Harmonic Features
+    # Harmonic Features
     chroma = compute_chroma(y_harm, sr)
     mfcc = compute_mfcc(y_harm, sr)
 
-    #Percussion Features
+    # Percussion Features
     tempogram, onset_env = compute_tempogram(y_perc, sr)
     flux = compute_spectral_flux(y_perc, sr)
     flux = np.pad(flux, (0, chroma.shape[1] - flux.shape[0]), mode='constant')
 
-    features = np.concatenate([chroma, mfcc, tempogram, onset_env[np.newaxis, :], flux[np.newaxis, :]], axis=0)
+    features = np.concatenate(
+        [chroma, mfcc, tempogram, onset_env[np.newaxis, :], flux[np.newaxis, :]], axis=0)
     features = librosa.util.normalize(features)
 
     # Part comes from Chatgpt because
@@ -89,14 +88,12 @@ def get_phrase_boundaries_complex(song, lock):
         ]
     }
 
-
     file_json = writeToJson(data_dump, results_path)
     with lock:
         if not os.path.exists(results_path):
             file_json.create_file()
         else:
             file_json.add_entry(data_dump)
-
 
 
 # Converts to minute:second format
@@ -110,18 +107,22 @@ def format_boundaries(phrase_boundaries):
 
 #  Takes the novelty function and converts it into phrase boundary times
 #  Only considers novelty value above certain maxima that meets the criteria
-def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window=25, min_peak_distance_sec=1.0,
-                         threshold_factor=1, top_k = 10):
+
+
+def post_process_novelty(novelty, sr, hop_length=512, L=None, smoothing_window=25, min_peak_distance_sec=1.0,
+                         threshold_factor=1, top_k=10):
     n_frames = len(novelty)
     if L is None:
         L = int(2.0 * sr / hop_length)
 
-    novelty_smooth = np.convolve(novelty, np.ones(smoothing_window)/smoothing_window, mode='same')
+    novelty_smooth = np.convolve(novelty, np.ones(
+        smoothing_window)/smoothing_window, mode='same')
 
     min_height = np.mean(novelty_smooth) * threshold_factor
     min_distance_frames = int(min_peak_distance_sec * sr / hop_length)
 
-    peaks, _ = find_peaks(novelty_smooth, height=min_height, distance=min_distance_frames)
+    peaks, _ = find_peaks(novelty_smooth, height=min_height,
+                          distance=min_distance_frames)
 
     # if len(peaks) == 0:
     #     peaks = np.arange(L, n_frames, 2*L)
@@ -143,9 +144,10 @@ def post_process_novelty(novelty, sr, hop_length = 512, L=None, smoothing_window
         top_indices = np.argsort(novelty_smooth[valid_peaks])[-top_k:][::-1]
         valid_peaks = valid_peaks[top_indices]
     valid_peaks = np.sort(valid_peaks)
-    
+
     return librosa.frames_to_time(valid_peaks, sr=sr, hop_length=hop_length)
     # return librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
+
 
 def compute_novelty_gaussian(SSM, sr, L=None, hop_length=512, sigma=1.0):
     n_frames = SSM.shape[0]
@@ -165,7 +167,7 @@ def compute_novelty_gaussian(SSM, sr, L=None, hop_length=512, sigma=1.0):
     return novelty
 
 
-#This creates the kernel used later for the SSM math
+# This creates the kernel used later for the SSM math
 def gaussian_checkerboard(L, sigma=1.0):
     x = np.arange(-L, L+1)
     y = np.arange(-L, L+1)
@@ -181,6 +183,8 @@ def gaussian_checkerboard(L, sigma=1.0):
 # Computes the similarity between two frames
 # Computes using a self similarity matrix and a checkerboard kernel to detect if frames are similar or not
 # The greater the difference between the features of two frames, the more likely to be a phrase boundary
+
+
 def compute_novelty(SSM, sr, L=None, hop_length=512):
     n_frames = SSM.shape[0]
     novelty = np.zeros(n_frames)
@@ -195,7 +199,7 @@ def compute_novelty(SSM, sr, L=None, hop_length=512):
     return novelty
 
 
-#This help detects beatdrops in the song
+# This help detects beatdrops in the song
 def compute_spectral_flux(y, sr, hop_length=512, n_fft=2048):
     spectogram = np.abs(librosa.stft(y, n_fft=n_fft, hop_length=hop_length))
     spec_norm = librosa.util.normalize(spectogram, axis=0)
@@ -203,7 +207,6 @@ def compute_spectral_flux(y, sr, hop_length=512, n_fft=2048):
     flux = np.sqrt(np.sum(np.diff(spec_norm, axis=1)**2, axis=0))
     flux = (flux - np.mean(flux)) / np.std(flux)
     return flux
-
 
 
 # Detects the beat/tempo structure
@@ -219,6 +222,8 @@ def compute_tempogram(y, sr):
 # Computes the timbre (texture or tone color)
 # The unique sounds of the instruments
 # Helps detect sudden changes in instruments or vocals
+
+
 def compute_mfcc(y, sr):
     mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
     timbre = librosa.feature.delta(mfcc)
@@ -238,6 +243,8 @@ def compute_chroma(y, sr):
 
 # This gets the audio waveform (y) and the sample rate (sr)
 # y is the audio data sr is the scale
+
+
 def preprocessing(song):
     y, sr = librosa.load(song['path'])
     y = librosa.util.normalize(y)
@@ -249,10 +256,13 @@ def preprocessing(song):
 # Gets rid of any unwanted noise
 # Used to "clean" the audio of background noises
 # May not need but data will be different if turned on/off
+
+
 def highpass_filter(y, sr, cutoff=100.0):
     b, a = butter(N=2,  Wn=cutoff / (sr / 2.0), btype='high', analog=False)
     y = filtfilt(b, a, y)
     return y
+
 
 if __name__ == "__main__":
     folder = "Music/wav_files/"
@@ -272,10 +282,7 @@ if __name__ == "__main__":
         if songs:
             # get_phrase_boundaries_complex(songs)
             with Pool(max_threads) as pool:
-                pool.starmap(get_phrase_boundaries_complex, [(song, lock) for song in songs])
+                pool.starmap(get_phrase_boundaries_complex, [
+                             (song, lock) for song in songs])
         else:
             print("no songs")
-
-
-
-
