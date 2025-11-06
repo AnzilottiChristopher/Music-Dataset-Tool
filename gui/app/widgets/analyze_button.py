@@ -8,6 +8,9 @@ import shutil
 import librosa
 import numpy as np
 
+import matplotlib
+matplotlib.use("Agg")  # noqa: E402
+import matplotlib.pyplot as plt
 
 from jupyter_core.version import parts
 
@@ -90,14 +93,14 @@ class AnalyzeButton(tk.Frame):
                         entry_time = self._time_to_secs(entry_boundary)
 
                         trend_a = compute_trend_line(
-                            song_a_path, boundary_time=exit_time, duration=2.0)
+                            song_a_path, boundary_time=exit_time, duration=2.0, visualize=True, save_dir="debug_trends")
                         trend_b = compute_trend_line(
                             song_b_path, boundary_time=entry_time+2.0, duration=2.0)
 
                         end_loud_a = np.mean(trend_a[-50:])
                         start_loud_b = np.mean(trend_b[:50])
 
-                        if abs(end_loud_a - start_loud_b) < 0.2:
+                        if abs(end_loud_a - start_loud_b) < 0.1:
                             _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
                                                          time_b=entry_time, output_path=output_path)
                         else:
@@ -131,14 +134,14 @@ class AnalyzeButton(tk.Frame):
                         entry_time = self._time_to_secs(entry_boundary)
 
                         trend_a = compute_trend_line(
-                            song_a_path, boundary_time=exit_time, duration=2.0)
+                            song_a_path, boundary_time=exit_time, duration=2.0, visualize=True, save_dir="debug_trends")
                         trend_b = compute_trend_line(
-                            song_b_path, boundary_time=entry_time+2.0, duration=2.0)
+                            song_b_path, boundary_time=entry_time+2.0, duration=2.0, visualize=True, save_dir="debug_trends")
 
                         end_loud_a = np.mean(trend_a[-50:])
                         start_loud_b = np.mean(trend_b[:50])
 
-                        if abs(end_loud_a - start_loud_b) < 0.2:
+                        if abs(end_loud_a - start_loud_b) < 0.1:
                             _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
                                                          time_b=entry_time, output_path=output_path)
                         else:
@@ -166,7 +169,7 @@ class AnalyzeButton(tk.Frame):
         # return float((int(minutes) * 60) + (int(seconds)))
 
 
-def compute_trend_line(song, boundary_time, duration=2.0, num_windows=700):
+def compute_trend_line(song, boundary_time, duration=2.0, num_windows=700, visualize=False, save_dir=None):
     y, sr = librosa.load(song, sr=None)
 
     start_sample = max(0, int((boundary_time - duration) * sr))
@@ -184,5 +187,20 @@ def compute_trend_line(song, boundary_time, duration=2.0, num_windows=700):
 
     trend_line = np.mean(np.abs(trimmed), axis=1)
     trend_line /= trend_line.max() + 1e-9
+
+    if visualize and save_dir:
+        os.makedirs(save_dir, exist_ok=True)
+        fig, ax = plt.subplots(figsize=(10, 4))
+        times = np.linspace(0, duration, len(segment))
+        trend_times = np.linspace(0, duration, len(trend_line))
+        ax.plot(times, segment, alpha=0.6, color='gray', label='Waveform')
+        ax.plot(trend_times, trend_line * np.max(np.abs(segment)),
+                color='red', linewidth=2, label='Trend Line')
+        ax.set_title(f"Trend Line at {boundary_time:.2f}s")
+        ax.set_xlabel("Time (s)")
+        ax.legend()
+        plt.tight_layout()
+        fig.savefig(os.path.join(save_dir, f"trend_{boundary_time:.2f}.png"))
+        plt.close(fig)
 
     return trend_line

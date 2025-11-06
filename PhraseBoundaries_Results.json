@@ -68,29 +68,6 @@
                     "04:06.6"
                 ]
             }
-        },
-        {
-            "song_name": "Clarity.wav",
-            "features": {
-                "bpm": "",
-                "key": "",
-                "scale": "",
-                "key_strength": "",
-                "first_phrase_boundaries": [
-                    "00:05.5",
-                    "00:13.4",
-                    "00:20.9",
-                    "02:05.8",
-                    "02:13.4"
-                ],
-                "last_phrase_boundaries": [
-                    "02:20.9",
-                    "03:26.7",
-                    "03:28.2",
-                    "03:57.4",
-                    "04:20.4"
-                ]
-            }
         }
     ]
 }
