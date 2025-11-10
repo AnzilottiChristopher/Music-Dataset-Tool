@@ -18,6 +18,18 @@
                     "00:15",
                     "00:30",
                     "00:46"
+                ],
+                "entry_phrase_boundary_vocals": [
+                    false,
+                    true,
+                    true,
+                    true
+                    ],
+                "exit_phrase_boundary_vocals": [
+                    false,
+                    false,
+                    false,
+                    false
                 ]
             } 
             },
@@ -39,6 +51,18 @@
                         "00:15",
                         "00:31",
                         "00:47"
+                    ],
+                    "entry_phrase_boundary_vocals": [
+                        false,
+                        false,
+                        true,
+                        true
+                    ],
+                    "exit_phrase_boundary_vocals": [
+                        true,
+                        false,
+                        false,
+                        false
                     ]
                 } 
             },
@@ -60,6 +84,18 @@
                         "00:17",
                         "00:34",
                         "00:52"
+                    ],
+                    "entry_phrase_boundary_vocals": [
+                        false,
+                        false,
+                        true,
+                        true
+                    ],
+                        "exit_phrase_boundary_vocals": [
+                        true,
+                        true,
+                        true,
+                        true
                     ]
                 }
             }

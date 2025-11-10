@@ -18,6 +18,18 @@
           "00:15",
           "00:30",
           "00:46"
+        ],
+        "entry_phrase_boundary_vocals": [
+          false,
+          true,
+          true,
+          true
+        ],
+        "exit_phrase_boundary_vocals": [
+          false,
+          false,
+          false,
+          false
         ]
       }
     },
@@ -39,6 +51,18 @@
           "00:15",
           "00:31",
           "00:47"
+        ],
+        "entry_phrase_boundary_vocals": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "exit_phrase_boundary_vocals": [
+          true,
+          false,
+          false,
+          false
         ]
       }
     },
@@ -60,6 +84,18 @@
           "00:17",
           "00:34",
           "00:52"
+        ],
+        "entry_phrase_boundary_vocals": [
+          false,
+          false,
+          true,
+          true
+        ],
+        "exit_phrase_boundary_vocals": [
+          true,
+          true,
+          true,
+          true
         ]
       }
     }
@@ -71,7 +107,287 @@
       "exit_boundary": "169.0",
       "entry_boundary": "0.0",
       "rating": 1,
-      "comment": "Vocals are too present"
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "169.0",
+      "entry_boundary": "15.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "169.0",
+      "entry_boundary": "30.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "169.0",
+      "entry_boundary": "46.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "0.0",
+      "rating": 3,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "15.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "30.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "46.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "0.0",
+      "rating": 8,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "15.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "30.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "46.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "0.0",
+      "rating": 10,
+      "comment": "Great"
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "15.0",
+      "rating": 8,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "30.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "waitingforlove-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "46.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "169.0",
+      "entry_boundary": "0.0",
+      "rating": 8,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "169.0",
+      "entry_boundary": "15.0",
+      "rating": 7,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "169.0",
+      "entry_boundary": "31.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "169.0",
+      "entry_boundary": "47.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "0.0",
+      "rating": 9,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "15.0",
+      "rating": 4,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "31.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "188.0",
+      "entry_boundary": "47.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "0.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "15.0",
+      "rating": 9,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "31.0",
+      "rating": 6,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "207.0",
+      "entry_boundary": "47.0",
+      "rating": 3,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "0.0",
+      "rating": 7,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "15.0",
+      "rating": 3,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "31.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "stargazing-kygo.wav",
+      "song_b": "wakemeup-avicii.wav",
+      "exit_boundary": "227.0",
+      "entry_boundary": "47.0",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "waitingforlove-avicii.wav",
+      "song_b": "stargazing-kygo.wav",
+      "exit_boundary": "185.0",
+      "entry_boundary": "0.0",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "waitingforlove-avicii.wav",
+      "song_b": "stargazing-kygo.wav",
+      "exit_boundary": "185.0",
+      "entry_boundary": "17.0",
+      "rating": 3,
+      "comment": ""
+    },
+    {
+      "song_a": "waitingforlove-avicii.wav",
+      "song_b": "stargazing-kygo.wav",
+      "exit_boundary": "185.0",
+      "entry_boundary": "34.0",
+      "rating": 4,
+      "comment": ""
+    },
+    {
+      "song_a": "waitingforlove-avicii.wav",
+      "song_b": "stargazing-kygo.wav",
+      "exit_boundary": "185.0",
+      "entry_boundary": "52.0",
+      "rating": 5,
+      "comment": ""
     }
   ]
 }
