@@ -1,6 +1,7 @@
-!Music/.gitkeep
 .idea/
 .venv
 __pycache__/
 *.pyc
 .condaenv
+Music/wav_files
+Music/transition_files

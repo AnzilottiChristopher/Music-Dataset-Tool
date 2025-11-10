@@ -9,6 +9,7 @@ import librosa
 import numpy as np
 
 import matplotlib
+
 matplotlib.use("Agg")  # noqa: E402
 import matplotlib.pyplot as plt
 
@@ -30,7 +31,7 @@ class AnalyzeButton(tk.Frame):
             fg="black",
             activebackground="#3e3e3e",
             padx=10,
-            pady=5
+            pady=5,
         )
 
         self.analyze_button.pack(pady=10)
@@ -43,7 +44,7 @@ class AnalyzeButton(tk.Frame):
     def analyze_pressed(self):
         # data is the original json, new path is the new folder path the new file is saved at (where to write to)
         # maybe should return the new json path to modify for us
-        with open(self.json_path, 'r') as f:
+        with open(self.json_path, "r") as f:
             data = json.load(f)
 
         original_folder_path = Path(self.folder_path)
@@ -58,10 +59,10 @@ class AnalyzeButton(tk.Frame):
 
         messagebox.showinfo(
             title='"Analysis will now begin."',
-            message="depending on the length of songs, this may take a while"
+            message="depending on the length of songs, this may take a while",
         )
 
-        song_array = data['songs']
+        song_array = data["songs"]
         for i, song_a in enumerate(song_array):
             for j, song_b in enumerate(song_array):
 
@@ -70,8 +71,8 @@ class AnalyzeButton(tk.Frame):
                     continue
 
                 # now we compute all new audio files in song_a
-                exit_boundaries_a = song_a['features']['last_phrase_boundaries']
-                entry_boundaries_b = song_b['features']['first_phrase_boundaries']
+                exit_boundaries_a = song_a["features"]["last_phrase_boundaries"]
+                entry_boundaries_b = song_b["features"]["first_phrase_boundaries"]
 
                 for exit_boundary in exit_boundaries_a:
                     for entry_boundary in entry_boundaries_b:
@@ -80,9 +81,11 @@ class AnalyzeButton(tk.Frame):
                         entry_time = self._time_to_secs(entry_boundary)
 
                         song_a_path = os.path.join(
-                            self.folder_path, song_a['song_name'])
+                            self.folder_path, song_a["song_name"]
+                        )
                         song_b_path = os.path.join(
-                            self.folder_path, song_b['song_name'])
+                            self.folder_path, song_b["song_name"]
+                        )
 
                         audio_file_name = f"{
                             song_a['song_name']}-TO-{song_b['song_name']}-exit{exit_time}-entry{entry_time}.wav"
@@ -93,16 +96,31 @@ class AnalyzeButton(tk.Frame):
                         entry_time = self._time_to_secs(entry_boundary)
 
                         trend_a = compute_trend_line(
-                            song_a_path, boundary_time=exit_time, duration=2.0, visualize=True, save_dir="debug_trends")
+                            song_a_path,
+                            boundary_time=exit_time,
+                            duration=2.0,
+                            visualize=False,
+                            save_dir="debug_trends",
+                        )
                         trend_b = compute_trend_line(
-                            song_b_path, boundary_time=entry_time+2.0, duration=2.0)
+                            song_b_path,
+                            boundary_time=entry_time + 2.0,
+                            duration=2.0,
+                            visualize=False,
+                            save_dir="debug_trends",
+                        )
 
                         end_loud_a = np.mean(trend_a[-50:])
                         start_loud_b = np.mean(trend_b[:50])
 
                         if abs(end_loud_a - start_loud_b) < 0.1:
-                            _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
-                                                         time_b=entry_time, output_path=output_path)
+                            _ = compute_transition_audio(
+                                song_a=song_a_path,
+                                song_b=song_b_path,
+                                time_a=exit_time,
+                                time_b=entry_time,
+                                output_path=output_path,
+                            )
                         else:
                             print("Skipping transition")
 
@@ -111,8 +129,8 @@ class AnalyzeButton(tk.Frame):
                         #                                  time_b=entry_time, output_path=output_path)
 
                 # NOW WE GO THE OTHER WAY, ESSENTIALLY COPYING WHAT WE HAVE DONE HERE
-                exit_boundaries_b = song_b['features']['last_phrase_boundaries']
-                entry_boundaries_a = song_a['features']['first_phrase_boundaries']
+                exit_boundaries_b = song_b["features"]["last_phrase_boundaries"]
+                entry_boundaries_a = song_a["features"]["first_phrase_boundaries"]
 
                 for exit_boundary in exit_boundaries_b:
                     for entry_boundary in entry_boundaries_a:
@@ -121,9 +139,11 @@ class AnalyzeButton(tk.Frame):
                         entry_time = self._time_to_secs(entry_boundary)
 
                         song_a_path = os.path.join(
-                            self.folder_path, song_b['song_name'])
+                            self.folder_path, song_b["song_name"]
+                        )
                         song_b_path = os.path.join(
-                            self.folder_path, song_a['song_name'])
+                            self.folder_path, song_a["song_name"]
+                        )
 
                         audio_file_name = f"{
                             song_b['song_name']}-TO-{song_a['song_name']}-exit{exit_time}-entry{entry_time}.wav"
@@ -134,16 +154,31 @@ class AnalyzeButton(tk.Frame):
                         entry_time = self._time_to_secs(entry_boundary)
 
                         trend_a = compute_trend_line(
-                            song_a_path, boundary_time=exit_time, duration=2.0, visualize=True, save_dir="debug_trends")
+                            song_a_path,
+                            boundary_time=exit_time,
+                            duration=2.0,
+                            visualize=False,
+                            save_dir="debug_trends",
+                        )
                         trend_b = compute_trend_line(
-                            song_b_path, boundary_time=entry_time+2.0, duration=2.0, visualize=True, save_dir="debug_trends")
+                            song_b_path,
+                            boundary_time=entry_time + 2.0,
+                            duration=2.0,
+                            visualize=False,
+                            save_dir="debug_trends",
+                        )
 
                         end_loud_a = np.mean(trend_a[-50:])
                         start_loud_b = np.mean(trend_b[:50])
 
                         if abs(end_loud_a - start_loud_b) < 0.1:
-                            _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
-                                                         time_b=entry_time, output_path=output_path)
+                            _ = compute_transition_audio(
+                                song_a=song_a_path,
+                                song_b=song_b_path,
+                                time_a=exit_time,
+                                time_b=entry_time,
+                                output_path=output_path,
+                            )
                         else:
                             print("Skipping transition")
 
@@ -156,7 +191,7 @@ class AnalyzeButton(tk.Frame):
 
     def _time_to_secs(self, time):
         str_representation = str(time)
-        part = str_representation.split(':')
+        part = str_representation.split(":")
 
         if len(part) == 2:
             minutes, seconds = part
@@ -169,7 +204,9 @@ class AnalyzeButton(tk.Frame):
         # return float((int(minutes) * 60) + (int(seconds)))
 
 
-def compute_trend_line(song, boundary_time, duration=2.0, num_windows=700, visualize=False, save_dir=None):
+def compute_trend_line(
+    song, boundary_time, duration=2.0, num_windows=700, visualize=False, save_dir=None
+):
     y, sr = librosa.load(song, sr=None)
 
     start_sample = max(0, int((boundary_time - duration) * sr))
@@ -182,8 +219,7 @@ def compute_trend_line(song, boundary_time, duration=2.0, num_windows=700, visua
 
     total_samples = len(segment)
     window_size = total_samples // num_windows
-    trimmed = segment[:window_size *
-                      num_windows].reshape(num_windows, window_size)
+    trimmed = segment[: window_size * num_windows].reshape(num_windows, window_size)
 
     trend_line = np.mean(np.abs(trimmed), axis=1)
     trend_line /= trend_line.max() + 1e-9
@@ -193,9 +229,14 @@ def compute_trend_line(song, boundary_time, duration=2.0, num_windows=700, visua
         fig, ax = plt.subplots(figsize=(10, 4))
         times = np.linspace(0, duration, len(segment))
         trend_times = np.linspace(0, duration, len(trend_line))
-        ax.plot(times, segment, alpha=0.6, color='gray', label='Waveform')
-        ax.plot(trend_times, trend_line * np.max(np.abs(segment)),
-                color='red', linewidth=2, label='Trend Line')
+        ax.plot(times, segment, alpha=0.6, color="gray", label="Waveform")
+        ax.plot(
+            trend_times,
+            trend_line * np.max(np.abs(segment)),
+            color="red",
+            linewidth=2,
+            label="Trend Line",
+        )
         ax.set_title(f"Trend Line at {boundary_time:.2f}s")
         ax.set_xlabel("Time (s)")
         ax.legend()
