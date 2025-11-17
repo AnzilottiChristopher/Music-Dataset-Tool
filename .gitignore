@@ -5,3 +5,5 @@ __pycache__/
 .condaenv
 Music/wav_files
 Music/transition_files
+gui/app/__pycache__/
+gui/widgets/__pycache__/
