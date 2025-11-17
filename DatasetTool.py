@@ -44,6 +44,57 @@ class SongLoader:
         return self.songs
 
 
+def detect_beats_downbeats(song, start_time=None, end_time=None, hop_length=512):
+    y_harm, y_perc, sr = preprocessing(song)
+
+    if start_time is not None and end_time is not None:
+        start_sample = int(start_time * sr)
+        end_sample = int(end_time * sr)
+        y_perc = y_perc[start_sample:end_sample]
+        y_harm = y_harm[start_sample:end_sample]
+
+    tempogram, onset_env = compute_tempogram(y_perc, sr)
+
+    tempo_frequences = librosa.tempo_frequencies(
+        tempogram.shape[0], sr=sr, hop_length=hop_length
+    )
+    tempo_strength = np.sum(tempogram, axis=1)
+    tempo_index = np.argmax(tempo_strength)
+    tempo = tempo_frequences[tempo_index]  # This is a BPM estimate
+
+    seconds_per_beat = 60.0 / tempo
+    min_dist_frames = max(1, int((seconds_per_beat * sr) / hop_length))
+
+    peaks, _ = find_peaks(
+        onset_env, distance=min_dist_frames, height=np.mean(onset_env)
+    )
+
+    beat_times = librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
+
+    if start_time is not None:
+        beat_tomes += start_time
+
+    # Downbeats
+    chroma = compute_chroma(y_harm, sr)
+
+    beat_frames = librosa.time_to_frames(beat_times, sr=sr, hop_length=hop_length)
+    beat_chroma = np.array(
+        [
+            np.mean(chroma[:, max(0, f - 2) : f + 2], axis=1)
+            for f in beat_frames
+            if f < chroma.shape[1]
+        ]
+    )
+
+    chroma_diff = np.sum(np.abs(np.diff(beat_chroma, axis=0)), axis=1)
+
+    downbeat_indices, _ = find_peaks(chroma_diff, distance=4)
+
+    downbeat_times = beat_times[downbeat_indices] if len(beat_times) > 0 else []
+
+    return beat_times.tolist(), downbeat_times.tolist(), tempo
+
+
 def get_phrase_boundaries_complex(song, lock):
     y_harm, y_perc, sr = preprocessing(song)
 
@@ -295,13 +346,18 @@ if __name__ == "__main__":
     if len(songs) < max_threads:
         max_threads = len(songs)
 
-    with Manager() as manager:
-        lock = manager.Lock()
-        if songs:
-            # get_phrase_boundaries_complex(songs)
-            with Pool(max_threads) as pool:
-                pool.starmap(
-                    get_phrase_boundaries_complex, [(song, lock) for song in songs]
-                )
-        else:
-            print("no songs")
+    beats, downbeats, tempo = detect_beats_downbeats(songs[0])
+    print("Song: ", songs[0])
+    print("tempo: ", tempo)
+    print("Beats", beats[:10])
+    print("Downbeats: ", downbeats[:5])
+    # with Manager() as manager:
+    #     lock = manager.Lock()
+    #     if songs:
+    #         # get_phrase_boundaries_complex(songs)
+    #         with Pool(max_threads) as pool:
+    #             pool.starmap(
+    #                 get_phrase_boundaries_complex, [(song, lock) for song in songs]
+    #             )
+    #     else:
+    #         print("no songs")
