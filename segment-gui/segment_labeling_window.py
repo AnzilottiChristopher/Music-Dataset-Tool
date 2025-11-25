@@ -25,13 +25,14 @@ class SegmentLabelingWindow:
         self.page = SegmentStartPage(self.container, on_continue=self.show_labeling_page)
         self.page.pack(fill="both", expand=True)
     
-    def show_labeling_page(self, file_path, folder_path):
+    def show_labeling_page(self, file_path, folder_path, output_json_path=None):
         """Display the segment labeling page"""
         self.clear_container()
         self.page = SegmentLabelingPage(
             self.container, 
             file_path, 
             folder_path,
+            output_json_path=output_json_path,
             on_complete=self.on_labeling_complete
         )
         self.page.pack(fill="both", expand=True)

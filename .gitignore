@@ -1,6 +1,8 @@
+*.pyc
+*.cpython-313.pyc
 Music/
 .idea/
 .venv
 __pycache__/
-*.pyc
 .condaenv
+.DS_Store

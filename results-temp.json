@@ -1,0 +1,34 @@
+{
+    "songs": [
+        {
+            "song_name": "waiting-for-love_avicii.wav",
+            "features": {
+                "bpm": 128.06227111816406,
+                "key": "F#",
+                "scale": "minor",
+                "key_strength": 0.8878006935119629,
+                "loudness": 0.8805457353591919,
+                "danceability": 1.1528594493865967,
+                "spectral_centroid": 1377.8050537109375,
+                "spectral_rolloff": 1793.6148681640625,
+                "dissonance": 0.44429218769073486,
+                "onset_rate": 3.7072012424468994
+            }
+        },
+        {
+            "song_name": "hymn-for-the-weekend_coldplay.wav",
+            "features": {
+                "bpm": 89.91226959228516,
+                "key": "C",
+                "scale": "minor",
+                "key_strength": 0.936860978603363,
+                "loudness": 0.8265402913093567,
+                "danceability": 1.0673654079437256,
+                "spectral_centroid": 1545.626953125,
+                "spectral_rolloff": 1974.61865234375,
+                "dissonance": 0.45232170820236206,
+                "onset_rate": 3.124148368835449
+            }
+        }
+    ]
+}

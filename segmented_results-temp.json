@@ -1,0 +1,126 @@
+{
+  "songs": [
+    {
+      "song_name": "waiting-for-love_avicii.wav",
+      "features": {
+        "bpm": 128.06227111816406,
+        "key": "F#",
+        "scale": "minor",
+        "key_strength": 0.8878006935119629,
+        "loudness": 0.8805457353591919,
+        "danceability": 1.1528594493865967,
+        "spectral_centroid": 1377.8050537109375,
+        "spectral_rolloff": 1793.6148681640625,
+        "dissonance": 0.44429218769073486,
+        "onset_rate": 3.7072012424468994
+      },
+      "segments": {
+        "intro": [
+          0.0,
+          6.0
+        ],
+        "verse": [
+          6.0,
+          37.0
+        ],
+        "chorus": [
+          37.0,
+          74.0
+        ],
+        "build-up": [
+          74.0,
+          104.0
+        ],
+        "beat-drop": [
+          104.0,
+          119.0
+        ],
+        "verse1": [
+          120.0,
+          135.0
+        ],
+        "chorus1": [
+          136.0,
+          165.0
+        ],
+        "build-up1": [
+          166.0,
+          195.0
+        ],
+        "beat-drop1": [
+          195.0,
+          225.0
+        ],
+        "outro": [
+          225.0,
+          230.0
+        ]
+      }
+    },
+    {
+      "song_name": "hymn-for-the-weekend_coldplay.wav",
+      "features": {
+        "bpm": 89.91226959228516,
+        "key": "C",
+        "scale": "minor",
+        "key_strength": 0.936860978603363,
+        "loudness": 0.8265402913093567,
+        "danceability": 1.0673654079437256,
+        "spectral_centroid": 1545.626953125,
+        "spectral_rolloff": 1974.61865234375,
+        "dissonance": 0.45232170820236206,
+        "onset_rate": 3.124148368835449
+      },
+      "segments": {
+        "intro": [
+          0.0,
+          31.0
+        ],
+        "verse": [
+          31.0,
+          84.0
+        ],
+        "chorus": [
+          84.0,
+          103.0
+        ],
+        "build-up": [
+          103.0,
+          106.0
+        ],
+        "beat-drop": [
+          106.0,
+          128.0
+        ],
+        "cool-down": [
+          128.0,
+          138.0
+        ],
+        "verse1": [
+          138.0,
+          160.0
+        ],
+        "build-up1": [
+          160.0,
+          170.0
+        ],
+        "beat-drop1": [
+          170.0,
+          193.0
+        ],
+        "cool-down1": [
+          193.0,
+          202.0
+        ],
+        "chorus1": [
+          202.0,
+          235.0
+        ],
+        "outro": [
+          235.0,
+          258.0
+        ]
+      }
+    }
+  ]
+}

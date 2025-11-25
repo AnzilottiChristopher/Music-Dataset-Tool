@@ -1,68 +1,169 @@
 {
     "songs": [
-            { 
-            "song_name": "waitingforlove-avicii.wav",
+        {
+            "song_name": "waiting-for-love_avicii.wav",
             "features": {
                 "bpm": 128.06227111816406,
                 "key": "F#",
                 "scale": "minor",
                 "key_strength": 0.8878006935119629,
-                "last_phrase_boundaries": [
-                    "03:05",
-                    "03:20",
-                    "03:35",
-                    "03:49"
-                ],
-                "first_phrase_boundaries": [
-                    "00:00",
-                    "00:15",
-                    "00:30",
-                    "00:46"
-                ]
-            } 
-              },
-            {
-               "song_name": "wakemeup-avicii.wav",
-                "features": {
-                    "bpm": 123.60303497314453,
-                    "key": "D",
-                    "scale": "major",
-                    "key_strength": 0.9240454435348511,
-                    "last_phrase_boundaries": [
-                        "03:06",
-                        "03:22",
-                        "03:37",
-                        "03:53"
-                    ],
-                    "first_phrase_boundaries": [
-                        "00:00",
-                        "00:15",
-                        "00:31",
-                        "00:47"
-                    ]
-                } 
-            },
-            {
-                "song_name": "stargazing-kygo.wav",
-                "features": {
-                    "bpm": 98.84703826904297,
-                    "key": "F",
-                    "scale": "major",
-                    "key_strength": 0.9270086884498596,
-                    "last_phrase_boundaries": [
-                        "02:49",
-                        "03:08",
-                        "03:27",
-                        "03:47"
-                    ],
-                    "first_phrase_boundaries": [
-                        "00:00",
-                        "00:17",
-                        "00:34",
-                        "00:52"
-                    ]
-                }
+                "loudness": 0.8805457353591919,
+                "danceability": 1.1528594493865967,
+                "spectral_centroid": 1377.8050537109375,
+                "spectral_rolloff": 1793.6148681640625,
+                "dissonance": 0.44429218769073486,
+                "onset_rate": 3.7072012424468994
             }
+        },
+        {
+            "song_name": "hymn-for-the-weekend_coldplay.wav",
+            "features": {
+                "bpm": 89.91226959228516,
+                "key": "C",
+                "scale": "minor",
+                "key_strength": 0.936860978603363,
+                "loudness": 0.8265402913093567,
+                "danceability": 1.0673654079437256,
+                "spectral_centroid": 1545.626953125,
+                "spectral_rolloff": 1974.61865234375,
+                "dissonance": 0.45232170820236206,
+                "onset_rate": 3.124148368835449
+            }
+        },
+        {
+            "song_name": "firestone-kygo.wav",
+            "features": {
+                "bpm": 113.77003479003906,
+                "key": "D",
+                "scale": "major",
+                "key_strength": 0.9130188226699829,
+                "loudness": 0.6249677538871765,
+                "danceability": 1.1002739667892456,
+                "spectral_centroid": 930.654296875,
+                "spectral_rolloff": 1326.0604248046875,
+                "dissonance": 0.4290164113044739,
+                "onset_rate": 3.8362443447113037
+            }
+        },
+        {
+            "song_name": "how-deep-is-your-love_calvin-harris.wav",
+            "features": {
+                "bpm": 122.09896850585938,
+                "key": "E",
+                "scale": "minor",
+                "key_strength": 0.7739360928535461,
+                "loudness": 0.8637517690658569,
+                "danceability": 1.0637259483337402,
+                "spectral_centroid": 1512.3909912109375,
+                "spectral_rolloff": 1783.2327880859375,
+                "dissonance": 0.4612824320793152,
+                "onset_rate": 4.946864604949951
+            }
+        },
+        {
+            "song_name": "five-more-hours_chris-brown.wav",
+            "features": {
+                "bpm": 128.1976318359375,
+                "key": "Bb",
+                "scale": "major",
+                "key_strength": 0.8555238246917725,
+                "loudness": 0.9347239136695862,
+                "danceability": 1.2187360525131226,
+                "spectral_centroid": 1568.330078125,
+                "spectral_rolloff": 1875.831787109375,
+                "dissonance": 0.460076242685318,
+                "onset_rate": 4.000034332275391
+            }
+        },
+        {
+            "song_name": "feel-so-close_calvin-harris.wav",
+            "features": {
+                "bpm": 128.02386474609375,
+                "key": "G",
+                "scale": "major",
+                "key_strength": 0.9312947392463684,
+                "loudness": 0.91604083776474,
+                "danceability": 1.1853119134902954,
+                "spectral_centroid": 1524.942626953125,
+                "spectral_rolloff": 2114.929443359375,
+                "dissonance": 0.4671645760536194,
+                "onset_rate": 3.7950963973999023
+            }
+        },
+        {
+            "song_name": "hey-brother_avicii.wav",
+            "features": {
+                "bpm": 124.98138427734375,
+                "key": "G",
+                "scale": "minor",
+                "key_strength": 0.9047814011573792,
+                "loudness": 0.9323709607124329,
+                "danceability": 1.0621936321258545,
+                "spectral_centroid": 1705.0723876953125,
+                "spectral_rolloff": 2144.032470703125,
+                "dissonance": 0.4640653133392334,
+                "onset_rate": 4.076735973358154
+            }
+        },
+        {
+            "song_name": "heroes-we-could-be_alesso-tove-lo.wav",
+            "features": {
+                "bpm": 126.03785705566406,
+                "key": "F",
+                "scale": "major",
+                "key_strength": 0.8862388730049133,
+                "loudness": 0.8343808650970459,
+                "danceability": 1.0543124675750732,
+                "spectral_centroid": 1683.843017578125,
+                "spectral_rolloff": 2065.893798828125,
+                "dissonance": 0.45834243297576904,
+                "onset_rate": 3.2281949520111084
+            }
+        },
+        {
+            "song_name": "heaven_avicii.wav",
+            "features": {
+                "bpm": 122.04342651367188,
+                "key": "A",
+                "scale": "major",
+                "key_strength": 0.9699844121932983,
+                "loudness": 0.79603511095047,
+                "danceability": 1.0355085134506226,
+                "spectral_centroid": 1197.759521484375,
+                "spectral_rolloff": 1259.923095703125,
+                "dissonance": 0.4519326388835907,
+                "onset_rate": 4.074945449829102
+            }
+        },
+        {
+            "song_name": "glad-you-came_the-wanted.wav",
+            "features": {
+                "bpm": 126.93588256835938,
+                "key": "G",
+                "scale": "minor",
+                "key_strength": 0.9067476391792297,
+                "loudness": 0.8905057311058044,
+                "danceability": 1.2769032716751099,
+                "spectral_centroid": 1364.3536376953125,
+                "spectral_rolloff": 1712.0855712890625,
+                "dissonance": 0.4514451026916504,
+                "onset_rate": 3.4857265949249268
+            }
+        },
+        {
+            "song_name": "under-control_alesso-calvin-harris.wav",
+            "features": {
+                "bpm": 125.85151672363281,
+                "key": "Ab",
+                "scale": "major",
+                "key_strength": 0.8797998428344727,
+                "loudness": 0.8801613450050354,
+                "danceability": 0.9980953335762024,
+                "spectral_centroid": 1606.69873046875,
+                "spectral_rolloff": 2147.92724609375,
+                "dissonance": 0.4651441276073456,
+                "onset_rate": 3.188899040222168
+            }
+        }
     ]
-
 }
