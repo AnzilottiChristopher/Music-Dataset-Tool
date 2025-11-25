@@ -3,17 +3,16 @@ from tkinter import filedialog
 
 
 class FileSelector(tk.Frame):
-    def __init__(self, parent, on_select=None, *args, **kwargs):
+    def __init__(self, parent, on_select=None, label_text="Select JSON File", *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.configure(bg="#000000")
         
         self.on_select = on_select # this will be a function
         self.selected_file = None 
-        # self.selected_file = "/Users/alexpower/Documents/Music-Dataset-Tool/results.json"
         
         self.select_button = tk.Button(
             self,
-            text="Select JSON File",
+            text=label_text,
             command=self.select_json_file,
             bg="#2e2e2e",
             fg="black",
@@ -39,8 +38,6 @@ class FileSelector(tk.Frame):
             title="Select JSON file",
             filetypes=[("JSON Files", "*.json"), ("All Files", "*.*")]
         )
-        
-        # file_path = "/Users/alexpower/Documents/Music-Dataset-Tool/results.json"
 
         if file_path:
             self.selected_file = file_path
@@ -57,5 +54,3 @@ class FileSelector(tk.Frame):
             print(f"no file was selected")
         else:
             return self.selected_file
-        
-        

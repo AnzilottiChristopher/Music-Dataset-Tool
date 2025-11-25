@@ -8,12 +8,9 @@ class SegmentStartPage(tk.Frame):
     def __init__(self, parent, on_continue):
         super().__init__(parent, bg='#1e1e1e')
         self.on_continue = on_continue
-        # self.file_path = None
-        # self.folder_path = None
-        
-        # the three lines below should be commented/deleted when we actually analyze 
-        self.file_path =  "/Users/alexpower/Documents/Music-Dataset-Tool/results.json"
-        self.folder_path = "/Users/alexpower/Documents/Music-Dataset-Tool/Music/wav_files"
+        self.file_path = None
+        self.folder_path = None
+        self.output_json_path = None
         
         # Title
         tk.Label(
@@ -24,14 +21,34 @@ class SegmentStartPage(tk.Frame):
             fg="white"
         ).pack(pady=30)
         
+        # Instructions
+        tk.Label(
+            self,
+            text="Select input JSON and music folder. Optionally select an existing output file to resume.",
+            font=("Helvetica", 10),
+            bg="#1e1e1e",
+            fg="#888"
+        ).pack(pady=5)
         
         # File selector
-        self.file_selector = FileSelector(self, on_select=self.on_file_selected)
+        self.file_selector = FileSelector(self, on_select=self.on_file_selected, label_text="Select Input JSON File")
         self.file_selector.pack(pady=20)
         
         # Folder selector
         self.folder_selector = MusicSelector(self, on_select=self.on_folder_selected)
         self.folder_selector.pack(pady=20)
+        
+        # Optional output JSON selector
+        tk.Label(
+            self,
+            text="Optional: Resume from existing output",
+            font=("Helvetica", 12, "bold"),
+            bg="#1e1e1e",
+            fg="white"
+        ).pack(pady=(20, 5))
+        
+        self.output_selector = FileSelector(self, on_select=self.on_output_selected, label_text="Select Existing Output JSON (Optional)")
+        self.output_selector.pack(pady=10)
         
         # Continue button
         self.continue_button = tk.Button(
@@ -58,6 +75,11 @@ class SegmentStartPage(tk.Frame):
         print(f"Folder selected: {path}")
         self.folder_path = path
         self.check_ready()
+    
+    def on_output_selected(self, path):
+        print(f"Output JSON selected: {path}")
+        self.output_json_path = path
+        # Don't need to check_ready() here since output is optional
     
     def check_ready(self):
         """Enable continue button if both paths are selected"""
@@ -86,4 +108,4 @@ class SegmentStartPage(tk.Frame):
         
         # Proceed to segment labeling
         if self.on_continue:
-            self.on_continue(self.file_path, self.folder_path)
+            self.on_continue(self.file_path, self.folder_path, self.output_json_path)

@@ -5,14 +5,16 @@ from pathlib import Path
 import pygame
 
 class SegmentLabelingPage(tk.Frame):
-    def __init__(self, parent, json_path, folder_path, on_complete=None):
+    def __init__(self, parent, json_path, folder_path, output_json_path=None, on_complete=None):
         super().__init__(parent, bg="#1e1e1e")
         
         self.json_path = json_path
         self.folder_path = folder_path
+        self.output_json_path = output_json_path
         self.on_complete = on_complete
         self.current_song_index = 0
         self.songs_data = []
+        self.completed_songs = set()  # Track which songs are already labeled
         self.current_segments = []
         self.new_json_path = None
         self.is_playing = False
@@ -43,9 +45,9 @@ class SegmentLabelingPage(tk.Frame):
         # Create UI
         self.setup_ui()
         
-        # Load first song
+        # Load first unlabeled song
         if self.songs_data:
-            self.load_current_song()
+            self.find_next_unlabeled_song()
     
     def load_songs_data(self):
         """Load the JSON data and prepare for editing"""
@@ -53,14 +55,52 @@ class SegmentLabelingPage(tk.Frame):
             with open(self.json_path, 'r') as f:
                 data = json.load(f)
                 self.songs_data = data.get('songs', [])
+            
+            # If output JSON provided, load it and check which songs are already done
+            if self.output_json_path and Path(self.output_json_path).exists():
+                print(f"Loading existing output from: {self.output_json_path}")
+                with open(self.output_json_path, 'r') as f:
+                    output_data = json.load(f)
+                    output_songs = output_data.get('songs', [])
+                    
+                    # Identify which songs already have segments
+                    for song in output_songs:
+                        segments = song.get('segments', {})
+                        if segments and len(segments) > 0:
+                            self.completed_songs.add(song['song_name'])
+                            print(f"  - {song['song_name']} already labeled (skipping)")
                 
-            # Create a copy of the JSON for modifications
-            self.new_json_path = Path(self.json_path).parent / f"segmented_{Path(self.json_path).name}"
-            with open(self.new_json_path, 'w') as f:
-                json.dump(data, f, indent=2)
+                # Use the existing output file
+                self.new_json_path = self.output_json_path
+                print(f"Found {len(self.completed_songs)} already-labeled songs")
+            else:
+                # Create a new output file
+                self.new_json_path = Path(self.json_path).parent / f"segmented_{Path(self.json_path).name}"
+                with open(self.new_json_path, 'w') as f:
+                    json.dump(data, f, indent=2)
+                print(f"Created new output file: {self.new_json_path}")
                 
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load JSON: {e}")
+    
+    def find_next_unlabeled_song(self):
+        """Find the next song that hasn't been labeled yet"""
+        while self.current_song_index < len(self.songs_data):
+            song = self.songs_data[self.current_song_index]
+            song_name = song['song_name']
+            
+            if song_name not in self.completed_songs:
+                # Found an unlabeled song
+                self.load_current_song()
+                return
+            else:
+                # This song is already done, skip to next
+                print(f"Skipping already-labeled song: {song_name}")
+                self.current_song_index += 1
+        
+        # If we get here, all songs are labeled
+        messagebox.showinfo("Complete", "All songs have been labeled!")
+        self.finish_labeling()
     
     def setup_ui(self):
         """Setup the main UI components"""
@@ -84,7 +124,7 @@ class SegmentLabelingPage(tk.Frame):
         )
         self.song_info_label.pack(pady=5)
         
-        # Progress indicator
+        # Progress indicator with completed count
         self.progress_label = tk.Label(
             self,
             text="",
@@ -95,9 +135,6 @@ class SegmentLabelingPage(tk.Frame):
         self.progress_label.pack(pady=2)
         
         # Import the enhanced WaveForm widget
-        # Note: Replace this with your actual waveform import path
-        # from app.widgets.wave_form import WaveForm
-        # For now, using the enhanced version:
         from app.widgets.wave_form import WaveForm
         
         # Waveform with timeline
@@ -325,15 +362,21 @@ class SegmentLabelingPage(tk.Frame):
         
         # Update labels
         self.song_info_label.config(text=f"Current Song: {song_name}")
-        self.progress_label.config(text=f"Song {self.current_song_index + 1} of {len(self.songs_data)}")
+        
+        # Calculate progress - total songs minus completed ones
+        total_unlabeled = len(self.songs_data) - len(self.completed_songs)
+        current_position = self.current_song_index - len([s for s in self.songs_data[:self.current_song_index] if s['song_name'] in self.completed_songs]) + 1
+        self.progress_label.config(
+            text=f"Song {current_position} of {total_unlabeled} unlabeled | {len(self.completed_songs)} already complete"
+        )
         
         # Load audio
         try:
             self.waveform.load_audio(str(song_path))
             pygame.mixer.music.load(str(song_path))
             
-            # Load existing segments if any
-            self.current_segments = song.get('segments', [])
+            # Load existing segments if any (should be empty for unlabeled songs)
+            self.current_segments = []
             self.update_segments_display()
             self.draw_timeline()
             
@@ -541,7 +584,7 @@ class SegmentLabelingPage(tk.Frame):
                         count += 1
                     segment_type = f"{segment_type}{count}"
                 
-                segments_dict[segment_type] = (segment['start'], segment['end'])
+                segments_dict[segment_type] = [segment['start'], segment['end']]
             
             # Update the song data
             self.songs_data[self.current_song_index]['segments'] = segments_dict
@@ -555,6 +598,10 @@ class SegmentLabelingPage(tk.Frame):
             with open(self.new_json_path, 'w') as f:
                 json.dump(data, f, indent=2)
             
+            # Mark this song as completed
+            song_name = self.songs_data[self.current_song_index]['song_name']
+            self.completed_songs.add(song_name)
+            
             return True
             
         except Exception as e:
@@ -562,33 +609,53 @@ class SegmentLabelingPage(tk.Frame):
             return False
     
     def save_and_next(self):
-        """Save current segments and move to next song"""
+        """Save current segments and move to next unlabeled song"""
         if self.save_current_segments():
             self.next_song()
     
     def next_song(self):
-        """Move to the next song"""
-        if self.current_song_index < len(self.songs_data) - 1:
-            self.stop_playback()
-            self.current_song_index += 1
-            self.load_current_song()
-            self.update_navigation_buttons()
-        else:
-            messagebox.showinfo("Complete", "You've labeled all songs!")
+        """Move to the next unlabeled song"""
+        self.stop_playback()
+        self.current_song_index += 1
+        self.find_next_unlabeled_song()
+        self.update_navigation_buttons()
     
     def prev_song(self):
-        """Move to the previous song"""
+        """Move to the previous song (including already-labeled ones)"""
         if self.current_song_index > 0:
             self.stop_playback()
             self.current_song_index -= 1
-            self.load_current_song()
+            
+            # Check if this song is already labeled
+            song = self.songs_data[self.current_song_index]
+            song_name = song['song_name']
+            
+            if song_name in self.completed_songs:
+                response = messagebox.askyesno(
+                    "Already Labeled",
+                    f"'{song_name}' has already been labeled.\n\nDo you want to re-label it?"
+                )
+                if response:
+                    # Allow re-labeling
+                    self.completed_songs.discard(song_name)
+                    self.load_current_song()
+                else:
+                    # Skip back further
+                    self.prev_song()
+            else:
+                self.load_current_song()
+            
             self.update_navigation_buttons()
     
     def update_navigation_buttons(self):
         """Update the state of navigation buttons"""
         self.prev_button.config(state="normal" if self.current_song_index > 0 else "disabled")
         
-        if self.current_song_index >= len(self.songs_data) - 1:
+        # Check if we're on the last unlabeled song
+        remaining_unlabeled = sum(1 for i in range(self.current_song_index + 1, len(self.songs_data)) 
+                                 if self.songs_data[i]['song_name'] not in self.completed_songs)
+        
+        if remaining_unlabeled == 0:
             self.save_and_next_button.config(text="Save (Last Song)")
     
     def finish_labeling(self):
