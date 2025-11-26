@@ -30,10 +30,7 @@ class SegmentLabelingPage(tk.Frame):
             "build-up": "#96CEB4",
             "beat-drop": "#FECA57",
             "cool-down": "#9C88FF",
-            "outro": "#FD79A8",
-            "bridge": "#A29BFE",
-            "breakdown": "#6C5CE7",
-            "other": "#95A5A6"
+            "outro": "#FD79A8"
         }
         
         # Initialize pygame mixer
@@ -52,36 +49,47 @@ class SegmentLabelingPage(tk.Frame):
     def load_songs_data(self):
         """Load the JSON data and prepare for editing"""
         try:
+            # Always load the input JSON as our reference
             with open(self.json_path, 'r') as f:
-                data = json.load(f)
-                self.songs_data = data.get('songs', [])
+                input_data = json.load(f)
+                self.songs_data = input_data.get('songs', [])
             
-            # If output JSON provided, load it and check which songs are already done
+            # Determine the output file path
             if self.output_json_path and Path(self.output_json_path).exists():
-                print(f"Loading existing output from: {self.output_json_path}")
+                # User provided an existing output file - use it
+                self.new_json_path = self.output_json_path
+                print(f"Using existing output file: {self.new_json_path}")
+                
+                # Load the output file to check which songs are already labeled
                 with open(self.output_json_path, 'r') as f:
                     output_data = json.load(f)
                     output_songs = output_data.get('songs', [])
                     
-                    # Identify which songs already have segments
+                    # Build a lookup of which songs have segments
                     for song in output_songs:
                         segments = song.get('segments', {})
+                        # A song is "completed" if it has a non-empty segments dict
                         if segments and len(segments) > 0:
                             self.completed_songs.add(song['song_name'])
-                            print(f"  - {song['song_name']} already labeled (skipping)")
+                            print(f"  ✓ {song['song_name']} already labeled (will skip)")
                 
-                # Use the existing output file
-                self.new_json_path = self.output_json_path
                 print(f"Found {len(self.completed_songs)} already-labeled songs")
+                
             else:
-                # Create a new output file
+                # No output file provided - create a fresh copy of input
                 self.new_json_path = Path(self.json_path).parent / f"segmented_{Path(self.json_path).name}"
+                
+                # Create a fresh copy of the input JSON
                 with open(self.new_json_path, 'w') as f:
-                    json.dump(data, f, indent=2)
+                    json.dump(input_data, f, indent=2)
+                
                 print(f"Created new output file: {self.new_json_path}")
+                print(f"This is a fresh copy of the input JSON")
                 
         except Exception as e:
             messagebox.showerror("Error", f"Failed to load JSON: {e}")
+            import traceback
+            traceback.print_exc() 
     
     def find_next_unlabeled_song(self):
         """Find the next song that hasn't been labeled yet"""
@@ -569,12 +577,16 @@ class SegmentLabelingPage(tk.Frame):
     def save_current_segments(self):
         """Save the current segments to the JSON"""
         if not self.songs_data or self.current_song_index >= len(self.songs_data):
-            return
+            return False
         
         try:
-            # Convert segments to the format requested (dict with tuples)
+            # Get the current song name
+            current_song_name = self.songs_data[self.current_song_index]['song_name']
+            print(f"\n=== Saving segments for: {current_song_name} ===")
+            
+            # Convert segments to the format requested (dict with lists)
             segments_dict = {}
-            for i, segment in enumerate(self.current_segments):
+            for segment in self.current_segments:
                 # Handle multiple instances of the same type
                 segment_type = segment['type']
                 if segment_type in segments_dict:
@@ -586,26 +598,43 @@ class SegmentLabelingPage(tk.Frame):
                 
                 segments_dict[segment_type] = [segment['start'], segment['end']]
             
-            # Update the song data
-            self.songs_data[self.current_song_index]['segments'] = segments_dict
+            print(f"Segments to save: {segments_dict}")
             
-            # Save to JSON file
+            # CRITICAL: Load the output JSON fresh from disk to avoid overwriting
             with open(self.new_json_path, 'r') as f:
-                data = json.load(f)
+                output_data = json.load(f)
             
-            data['songs'][self.current_song_index]['segments'] = segments_dict
+            # Find the song by name and update ONLY the segments key
+            song_found = False
+            for song in output_data.get('songs', []):
+                if song['song_name'] == current_song_name:
+                    # Only update the segments key - preserve everything else
+                    song['segments'] = segments_dict
+                    song_found = True
+                    print(f"✓ Found song in output JSON and updated segments")
+                    break
             
+            if not song_found:
+                raise ValueError(f"Song '{current_song_name}' not found in output JSON")
+            
+            # Save back to file
             with open(self.new_json_path, 'w') as f:
-                json.dump(data, f, indent=2)
+                json.dump(output_data, f, indent=2)
             
-            # Mark this song as completed
-            song_name = self.songs_data[self.current_song_index]['song_name']
-            self.completed_songs.add(song_name)
+            print(f"✓ Successfully saved to: {self.new_json_path}")
+            
+            # Update in-memory state
+            self.songs_data[self.current_song_index]['segments'] = segments_dict
+            self.completed_songs.add(current_song_name)
             
             return True
-            
+        
         except Exception as e:
-            messagebox.showerror("Error", f"Failed to save segments: {e}")
+            error_msg = f"Failed to save segments: {e}"
+            print(f"✗ {error_msg}")
+            messagebox.showerror("Error", error_msg)
+            import traceback
+            traceback.print_exc()
             return False
     
     def save_and_next(self):
