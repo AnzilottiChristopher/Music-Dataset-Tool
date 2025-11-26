@@ -25,15 +25,14 @@ until we have ranked all song pairs in both directions
 
 
 def create_json_copy(json_path):
-    with open(json_path, 'r') as f:
-        data = json.load(f)
-
     # we should rightfulyl assume json_path is absolute
     old_path = Path(json_path)
     new_path = old_path.with_name("transition-results.json")
 
+    empty_dict = {"transitions":[]}
+
     with open(new_path, 'w') as f:
-        json.dump(data, f, indent=4)
+        json.dump(empty_dict,f, indent=2)
 
     return new_path
 

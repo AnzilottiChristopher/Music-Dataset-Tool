@@ -40,10 +40,24 @@ class MusicPlayer(tk.Frame):
 
         
     def load_music(self, path):
+        
+        print(f"[DEBUG MusicPlayer] load_music called with: {path}")
+        print(f"[DEBUG MusicPlayer] Path type: {type(path)}")
+        
+        if not path or path == "":
+            print("[DEBUG MusicPlayer] ERROR: Path is empty or None!")
+            return
+            
+        self.current_audio = path
+        print(f"[DEBUG MusicPlayer] self.current_audio set to: {self.current_audio}")
+        
         self.current_audio = path 
         pygame.mixer.music.load(path)
         
     def play_music(self):
+
+        print(f"[DEBUG MusicPlayer] self.current_audio set to: {self.current_audio}")
+        
         if not self.current_audio:
             print('No music file was loaded')
             return

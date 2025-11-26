@@ -1,7 +1,9 @@
+*.pyc
+*.cpython-313.pyc
+Music/
 .idea/
 .venv
 __pycache__/
-*.pyc
 .condaenv
 Music/wav_files
 Music/transition_files
@@ -9,3 +11,4 @@ gui/app/__pycache__/
 gui/widgets/__pycache__/
 Music/*.zip
 Music/*_Music/
+.DS_Store
