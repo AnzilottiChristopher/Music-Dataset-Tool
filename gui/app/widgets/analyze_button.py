@@ -95,38 +95,43 @@ class AnalyzeButton(tk.Frame):
                         exit_time = self._time_to_secs(exit_boundary)
                         entry_time = self._time_to_secs(entry_boundary)
 
-                        trend_a = compute_trend_line(
-                            song_a_path,
-                            boundary_time=exit_time,
-                            duration=2.0,
-                            visualize=False,
-                            save_dir="debug_trends",
-                        )
-                        trend_b = compute_trend_line(
-                            song_b_path,
-                            boundary_time=entry_time + 2.0,
-                            duration=2.0,
-                            visualize=False,
-                            save_dir="debug_trends",
-                        )
+                        # trend_a = compute_trend_line(
+                        #     song_a_path,
+                        #     boundary_time=exit_time,
+                        #     duration=2.0,
+                        #     visualize=False,
+                        #     save_dir="debug_trends",
+                        # )
+                        # trend_b = compute_trend_line(
+                        #     song_b_path,
+                        #     boundary_time=entry_time + 2.0,
+                        #     duration=2.0,
+                        #     visualize=False,
+                        #     save_dir="debug_trends",
+                        # )
 
-                        end_loud_a = np.mean(trend_a[-50:])
-                        start_loud_b = np.mean(trend_b[:50])
+                        # end_loud_a = np.mean(trend_a[-50:])
+                        # start_loud_b = np.mean(trend_b[:50])
 
-                        if abs(end_loud_a - start_loud_b) < 0.1:
-                            _ = compute_transition_audio(
-                                song_a=song_a_path,
-                                song_b=song_b_path,
-                                time_a=exit_time,
-                                time_b=entry_time,
-                                output_path=output_path,
-                            )
-                        else:
-                            print("Skipping transition")
+                        # if abs(end_loud_a - start_loud_b) < 0.1:
+                        #     _ = compute_transition_audio(
+                        #         song_a=song_a_path,
+                        #         song_b=song_b_path,
+                        #         time_a=exit_time,
+                        #         time_b=entry_time,
+                        #         output_path=output_path,
+                        #     )
+                        # else:
+                        #     print("Skipping transition")
 
                         # Uncomment this and comment out from exit_time to print for the original way
-                        # _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
-                        #                                  time_b=entry_time, output_path=output_path)
+                        _ = compute_transition_audio(
+                            song_a=song_a_path,
+                            song_b=song_b_path,
+                            time_a=exit_time,
+                            time_b=entry_time,
+                            output_path=output_path,
+                        )
 
                 # NOW WE GO THE OTHER WAY, ESSENTIALLY COPYING WHAT WE HAVE DONE HERE
                 exit_boundaries_b = song_b["features"]["last_phrase_boundaries"]
@@ -153,38 +158,43 @@ class AnalyzeButton(tk.Frame):
                         exit_time = self._time_to_secs(exit_boundary)
                         entry_time = self._time_to_secs(entry_boundary)
 
-                        trend_a = compute_trend_line(
-                            song_a_path,
-                            boundary_time=exit_time,
-                            duration=2.0,
-                            visualize=False,
-                            save_dir="debug_trends",
-                        )
-                        trend_b = compute_trend_line(
-                            song_b_path,
-                            boundary_time=entry_time + 2.0,
-                            duration=2.0,
-                            visualize=False,
-                            save_dir="debug_trends",
-                        )
+                        # trend_a = compute_trend_line(
+                        #     song_a_path,
+                        #     boundary_time=exit_time,
+                        #     duration=2.0,
+                        #     visualize=False,
+                        #     save_dir="debug_trends",
+                        # )
+                        # trend_b = compute_trend_line(
+                        #     song_b_path,
+                        #     boundary_time=entry_time + 2.0,
+                        #     duration=2.0,
+                        #     visualize=False,
+                        #     save_dir="debug_trends",
+                        # )
 
-                        end_loud_a = np.mean(trend_a[-50:])
-                        start_loud_b = np.mean(trend_b[:50])
+                        # end_loud_a = np.mean(trend_a[-50:])
+                        # start_loud_b = np.mean(trend_b[:50])
 
-                        if abs(end_loud_a - start_loud_b) < 0.1:
-                            _ = compute_transition_audio(
-                                song_a=song_a_path,
-                                song_b=song_b_path,
-                                time_a=exit_time,
-                                time_b=entry_time,
-                                output_path=output_path,
-                            )
-                        else:
-                            print("Skipping transition")
+                        # if abs(end_loud_a - start_loud_b) < 0.1:
+                        #     _ = compute_transition_audio(
+                        #         song_a=song_a_path,
+                        #         song_b=song_b_path,
+                        #         time_a=exit_time,
+                        #         time_b=entry_time,
+                        #         output_path=output_path,
+                        #     )
+                        # else:
+                        #     print("Skipping transition")
 
                         # Uncomment this and comment out from exit_time to print for the original way
-                        # _ = compute_transition_audio(song_a=song_a_path, song_b=song_b_path, time_a=exit_time,
-                        #                                  time_b=entry_time, output_path=output_path)
+                        _ = compute_transition_audio(
+                            song_a=song_a_path,
+                            song_b=song_b_path,
+                            time_a=exit_time,
+                            time_b=entry_time,
+                            output_path=output_path,
+                        )
 
         if callable(self.on_complete):
             self.on_complete(new_folder_path)

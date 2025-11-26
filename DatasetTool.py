@@ -13,6 +13,7 @@ from scipy.stats import pearsonr
 from multiprocessing import Pool, Lock, Manager
 from multiprocessing.dummy import Pool as ThreadPool
 from WriteToJson import writeToJson
+from BeatNet.BeatNet import BeatNet
 
 
 class SongLoader:
@@ -42,57 +43,6 @@ class SongLoader:
 
     def get_songs(self):
         return self.songs
-
-
-def detect_beats_downbeats(song, start_time=None, end_time=None, hop_length=512):
-    y_harm, y_perc, sr = preprocessing(song)
-
-    if start_time is not None and end_time is not None:
-        start_sample = int(start_time * sr)
-        end_sample = int(end_time * sr)
-        y_perc = y_perc[start_sample:end_sample]
-        y_harm = y_harm[start_sample:end_sample]
-
-    tempogram, onset_env = compute_tempogram(y_perc, sr)
-
-    tempo_frequences = librosa.tempo_frequencies(
-        tempogram.shape[0], sr=sr, hop_length=hop_length
-    )
-    tempo_strength = np.sum(tempogram, axis=1)
-    tempo_index = np.argmax(tempo_strength)
-    tempo = tempo_frequences[tempo_index]  # This is a BPM estimate
-
-    seconds_per_beat = 60.0 / tempo
-    min_dist_frames = max(1, int((seconds_per_beat * sr) / hop_length))
-
-    peaks, _ = find_peaks(
-        onset_env, distance=min_dist_frames, height=np.mean(onset_env)
-    )
-
-    beat_times = librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
-
-    if start_time is not None:
-        beat_tomes += start_time
-
-    # Downbeats
-    chroma = compute_chroma(y_harm, sr)
-
-    beat_frames = librosa.time_to_frames(beat_times, sr=sr, hop_length=hop_length)
-    beat_chroma = np.array(
-        [
-            np.mean(chroma[:, max(0, f - 2) : f + 2], axis=1)
-            for f in beat_frames
-            if f < chroma.shape[1]
-        ]
-    )
-
-    chroma_diff = np.sum(np.abs(np.diff(beat_chroma, axis=0)), axis=1)
-
-    downbeat_indices, _ = find_peaks(chroma_diff, distance=4)
-
-    downbeat_times = beat_times[downbeat_indices] if len(beat_times) > 0 else []
-
-    return beat_times.tolist(), downbeat_times.tolist(), tempo
 
 
 def get_phrase_boundaries_complex(song, lock):
@@ -333,6 +283,69 @@ def highpass_filter(y, sr, cutoff=100.0):
     return y
 
 
+def detect_beats_downbeats(song, start_time=None, end_time=None, hop_length=512):
+    y_harm, y_perc, sr = preprocessing(song)
+
+    if start_time is not None and end_time is not None:
+        start_sample = int(start_time * sr)
+        end_sample = int(end_time * sr)
+        y_perc = y_perc[start_sample:end_sample]
+        y_harm = y_harm[start_sample:end_sample]
+
+    tempogram, onset_env = compute_tempogram(y_perc, sr)
+
+    tempo_frequences = librosa.tempo_frequencies(
+        tempogram.shape[0], sr=sr, hop_length=hop_length
+    )
+    tempo_strength = np.sum(tempogram, axis=1)
+    tempo_index = np.argmax(tempo_strength)
+    tempo = tempo_frequences[tempo_index]  # This is a BPM estimate
+
+    seconds_per_beat = 60.0 / tempo
+    min_dist_frames = max(1, int((seconds_per_beat * sr) / hop_length))
+
+    peaks, _ = find_peaks(
+        onset_env, distance=min_dist_frames, height=np.mean(onset_env)
+    )
+
+    beat_times = librosa.frames_to_time(peaks, sr=sr, hop_length=hop_length)
+
+    if start_time is not None:
+        beat_tomes += start_time
+
+    # Downbeats
+    chroma = compute_chroma(y_harm, sr)
+
+    beat_frames = librosa.time_to_frames(beat_times, sr=sr, hop_length=hop_length)
+    beat_chroma = np.array(
+        [
+            np.mean(chroma[:, max(0, f - 2) : f + 2], axis=1)
+            for f in beat_frames
+            if f < chroma.shape[1]
+        ]
+    )
+
+    chroma_diff = np.sum(np.abs(np.diff(beat_chroma, axis=0)), axis=1)
+
+    downbeat_indices, _ = find_peaks(chroma_diff, distance=4)
+
+    downbeat_times = beat_times[downbeat_indices] if len(beat_times) > 0 else []
+
+    return beat_times.tolist(), downbeat_times.tolist(), tempo
+
+
+def beatnet_detection(audio_path, model_id=1, inference_model="DBN"):
+    estimator = BeatNet(
+        model_id, mode="offline", inference_model=inference_model, plot=[]
+    )
+    output = estimator.process(audio_path)
+
+    beat_times = output[:, 0].tolist()
+    downbeat_times = output[:, 1].tolist()
+
+    return beat_times, downbeat_times
+
+
 if __name__ == "__main__":
     folder = "Music/wav_files/"
     file_paths = glob.glob(os.path.join(folder, "*.wav"))
@@ -346,11 +359,6 @@ if __name__ == "__main__":
     if len(songs) < max_threads:
         max_threads = len(songs)
 
-    beats, downbeats, tempo = detect_beats_downbeats(songs[0])
-    print("Song: ", songs[0])
-    print("tempo: ", tempo)
-    print("Beats", beats[:10])
-    print("Downbeats: ", downbeats[:5])
     # with Manager() as manager:
     #     lock = manager.Lock()
     #     if songs:
@@ -361,3 +369,20 @@ if __name__ == "__main__":
     #             )
     #     else:
     #         print("no songs")
+
+    """ beats, downbeats, tempo = detect_beats_downbeats(songs[0])
+    print("Song: ", songs[0]["path"])
+    # print("tempo: ", tempo)
+    print("Beats", beats[:10])
+    print("Downbeats: ", downbeats[:5]) """
+
+    # print("\n")
+
+    beats, downbeats = beatnet_detection(songs[0]["path"])
+    print("Beats: ", beats[:10])
+    print("Downbeats: ", downbeats[:10])
+
+    beat_times = np.array(beats)
+    downbeat_flags = np.array(downbeats)
+    downbeat_times = beat_times[downbeat_flags == 1.0]
+    print("Downbeat timestamps (s):", downbeat_times)
