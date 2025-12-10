@@ -1,0 +1,148 @@
+{
+  "transitions": [
+    {
+      "song_a": "2U_Justin-Bieber.wav",
+      "song_b": "A-Sky-Full-of-Stars_Coldplay.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 3,
+      "comment": ""
+    },
+    {
+      "song_a": "2U_Justin-Bieber.wav",
+      "song_b": "A-Sky-Full-of-Stars_Coldplay.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop1",
+      "rating": 6,
+      "comment": ""
+    },
+    {
+      "song_a": "2U_Justin-Bieber.wav",
+      "song_b": "Addicted-To-You_avicii.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 3,
+      "comment": ""
+    },
+    {
+      "song_a": "2U_Justin-Bieber.wav",
+      "song_b": "Addicted-To-You_avicii.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop1",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "A-Sky-Full-of-Stars_Coldplay.wav",
+      "song_b": "Die-Young_Kesha.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop1",
+      "rating": 7,
+      "comment": ""
+    },
+    {
+      "song_a": "A-Sky-Full-of-Stars_Coldplay.wav",
+      "song_b": "Die-Young_Kesha.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop2",
+      "rating": 7,
+      "comment": ""
+    },
+    {
+      "song_a": "A-Sky-Full-of-Stars_Coldplay.wav",
+      "song_b": "Fade-Into-Darkness_avicii.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 7,
+      "comment": ""
+    },
+    {
+      "song_a": "A-Sky-Full-of-Stars_Coldplay.wav",
+      "song_b": "Fade-Into-Darkness_avicii.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop1",
+      "rating": 6,
+      "comment": ""
+    },
+    {
+      "song_a": "A-Sky-Full-of-Stars_Coldplay.wav",
+      "song_b": "Fast-Car_Jonas-Blue.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 6,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Adventure-of-Lifetime_Coldplay.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop1",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Adventure-of-Lifetime_Coldplay.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop2",
+      "rating": 8,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Am-I-Wrong_Nico-Vinz.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Die-Young_Kesha.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 4,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Die-Young_Kesha.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop1",
+      "rating": 2,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Die-Young_Kesha.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop2",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Fade-Into-Darkness_avicii.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 7,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Fade-Into-Darkness_avicii.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop1",
+      "rating": 1,
+      "comment": ""
+    },
+    {
+      "song_a": "Addicted-To-You_avicii.wav",
+      "song_b": "Fast-Car_Jonas-Blue.wav",
+      "exit_segment": "beat-drop",
+      "entry_segment": "beat-drop",
+      "rating": 2,
+      "comment": ""
+    }
+  ]
+}

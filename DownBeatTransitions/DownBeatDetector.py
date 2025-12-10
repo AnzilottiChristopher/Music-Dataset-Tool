@@ -20,17 +20,28 @@ class BeatDrop:
         with open(file_path, "r") as f:
             data = json.load(f)
 
-        song_filename = self.path.split("/")[-1]
+        # song_filename = self.path.split("/")[-1]
+        song_filename = os.path.basename(self.path)
         song_segment_set = data["songs"]
+
+        downbeats_in_segment = []
 
         for song_name in song_segment_set:
             if song_filename == song_name["song_name"]:
-                segment_times = song["segments"][segment]
-                break
-        start, end = segment_times
-        downbeats_in_segment = [b for b in self.downbeat_times if start <= b <= end]
+                segs = song_name.get("segments", {})
 
-        return downbeats_in_segment
+                segment_times = segs.get(segment)
+
+                if not segment_times:
+                    return []
+
+                start, end = segment_times
+                downbeats_in_segment = [
+                    float(b) for b in self.downbeat_times if start <= b <= end
+                ]
+                return downbeats_in_segment
+
+        return []
 
     def getPath(self):
         return self.path
@@ -72,9 +83,9 @@ if __name__ == "__main__":
 
     # Will go through all the songs and have beatnet run an analysis on them getting the beats and downbeats of the song
     for song in songs:
-        beats, downbeats = beatnet_detection(song)
+        beats, downbeats = beatnet_detection(song["path"])
         beats_time = np.array(beats)
         downbeatFlags = np.array(downbeats)
         downbeat_times = beats_time[downbeatFlags == 1.0]
-        beat = BeatDrop(song["path"], downbeats, beats_time, beats, downbeats)
+        beat = BeatDrop(song["path"], downbeat_times, beats_time, beats, downbeats)
         songBeats.append(beat)
